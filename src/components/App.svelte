@@ -1,5 +1,17 @@
 <script>
-  // Write your JS here, or import other files
+  import { onMount } from 'svelte';
+  import * as d3 from 'd3';
+
+  let tempData = [];
+
+  onMount(async () => {
+      const res = await fetch('school_map.csv'); 
+      const csv = await res.text();
+      tempData = d3.csvParse(csv, d3.autoType)
+      console.log(tempData);
+    }
+  )
+
 </script>
 
 <main>
