@@ -56,11 +56,13 @@
     prev = new Map(nameframes.flatMap(([, tempData]) => d3.pairs(tempData, (a, b) => [b, a])));
     next = new Map(nameframes.flatMap(([, tempData]) => d3.pairs(tempData)));
 
-    
-    chart();
   });
 
-  function chart() {
+  $: if ((keyframes !== null) && (prev !== null) && (next !== null)) {
+    chart()
+  }
+
+  async function chart() {
       const svg = d3.create("svg")
           .attr("viewBox", [0, 0, width, height])
           .attr("width", width)
@@ -72,28 +74,24 @@
       const updateLabels = labels(svg);
       const updateTicker = ticker(svg);
 
+      document.body.appendChild(svg.node()); // Append SVG to the DOM
+
       for (const keyframe of keyframes) {
-        const transition = svg.transition()
-            .duration(duration)
-            .ease(d3.easeLinear);
+          const transition = svg.transition()
+              .duration(duration)
+              .ease(d3.easeLinear);
 
-        x.domain([0, keyframe[1][0].value]);
+          // Extract the top bar’s value.
+          x.domain([0, keyframe[1][0].value]);
 
-        updateAxis(keyframe, transition);
-        updateBars(keyframe, transition);
-        updateLabels(keyframe, transition);
-        updateTicker(keyframe, transition);
+          updateAxis(keyframe, transition);
+          updateBars(keyframe, transition);
+          updateLabels(keyframe, transition);
+          updateTicker(keyframe, transition);
+
+          await new Promise(resolve => transition.end(resolve)); // Await the end of the transition
       }
-
-      const container = document.getElementById('chart-container');
-      if (container) {
-        container.innerHTML = ''; // Clear existing content
-        container.appendChild(svg.node());
-      }
-
-      // await transition.end();
-    }
-
+  }
 
   function create_keyframes() {
     const keyframes = [];
