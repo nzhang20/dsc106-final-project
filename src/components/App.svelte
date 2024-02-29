@@ -20,6 +20,16 @@
         .map(([date, tempData]) => [new Date(date), tempData])
         .sort(([a], [b]) => d3.ascending(a, b))
       // console.log(datevalues);
+
+      let currentFrameIndex = 0;
+      
+      // Render the chart
+      // chart();
+
+
+
+      // animateChart(); // Start the animation
+
     }
   )
 
@@ -40,6 +50,7 @@
   let formatNumber = d3.format(",d");
 
 
+  // CUT CODE HERE
   let keyframes = null;
   let nameframes = null;
   let prev = null;
@@ -47,19 +58,38 @@
 
   $: if ((names !== null) && (datevalues !== null)) {
     keyframes = create_keyframes();
+    // console.log(keyframes)
   }
 
   $: if (keyframes !== null) {
-    nameframes = d3.groups(keyframes.flatMap(([, tempData]) => tempData), d => d.race);
+    // nameframes = Array.from(d3.group(keyframes.flatMap(([, tempData]) => tempData), d => d.race));
+    nameframes = [];
+
+    // Manually group the data by name
+    keyframes.forEach(([date, data]) => {
+        data.forEach(item => {
+            const index = nameframes.findIndex(([name]) => name === item.name);
+            if (index === -1) {
+                nameframes.push([item.name, [item]]);
+            } else {
+                nameframes[index][1].push(item);
+            } 
+        });
+    });
+
+    console.log(nameframes)
+    // console.log(tempData[0].race)
   }
 
   $: if (nameframes !== null) {
     prev = new Map(nameframes.flatMap(([, tempData]) => d3.pairs(tempData, (a, b) => [b, a])));
+    // console.log(prev)
     next = new Map(nameframes.flatMap(([, tempData]) => d3.pairs(tempData)));
+    // console.log(next)
   }
 
   $: if ((keyframes !== null) && (prev !== null) && (next !== null)) {
-    chart()
+    chart();
   }
 
   let x = d3.scaleLinear([0, 1], [marginLeft, width - marginRight]);
@@ -70,9 +100,23 @@
 
   let tickFormat = undefined // override as desired
 
+  function animateChart() {
+    let currentFrameIndex = 0;
+    if (keyframes) {
+      const animate = () => {
+        if (currentFrameIndex < keyframes.length) {
+          chart(keyframes[currentFrameIndex]);
+          currentFrameIndex++;
+          setTimeout(animate, duration);
+        }
+      };
+      animate();
+    }
+  }
 
   // chart function below
   async function chart() {
+    // replay;
 
     const svg = d3.create("svg")
         .attr("viewBox", [0, 0, width, height])
@@ -101,7 +145,7 @@
       updateTicker(keyframe, transition);
 
       // invalidation.then(() => svg.interrupt());
-      // await transition.end();
+      await transition.end();
     }
 
     // Chart to website
@@ -143,7 +187,7 @@
       .selectAll("rect");
 
     return ([date, tempData], transition) => bar = bar
-      .data(tempData.slice(0, n), d => d.name)
+      .data(tempData.slice(0, n), d => d.race)
       .join(
         enter => enter.append("rect")
           .attr("fill", color)
@@ -168,15 +212,15 @@
         .attr("text-anchor", "end")
       .selectAll("text");
 
-    return ([date, data], transition) => label = label
-      .data(data.slice(0, n), d => d.name)
+    return ([date, tempData], transition) => label = label
+      .data(tempData.slice(0, n), d => d.race)
       .join(
         enter => enter.append("text")
           .attr("transform", d => `translate(${x((prev.get(d) || d).value)},${y((prev.get(d) || d).rank)})`)
           .attr("y", y.bandwidth() / 2)
           .attr("x", -6)
           .attr("dy", "-0.25em")
-          .text(d => d.name)
+          .text(d => d.race)
           .call(text => text.append("tspan")
             .attr("fill-opacity", 0.7)
             .attr("font-weight", "normal")
@@ -217,7 +261,7 @@
   }
 
   function ticker(svg) {
-    console.log(keyframes[0][0])
+    // console.log(keyframes[0][0])
     const now = svg.append("text")
         .style("font", `bold ${barSize}px var(--sans-serif)`)
         .style("font-variant-numeric", "tabular-nums")
@@ -234,11 +278,11 @@
 
   function color() {
     const scale = d3.scaleOrdinal(d3.schemeTableau10);
-    // if (tempData.some(d => d.race !== undefined)) {
-    //   const categoryByName = new Map(tempData.map(d => [d.race, d.race]))
-    //   scale.domain(categoryByName.values());
-    //   return d => scale(categoryByName.get(d.race));
-    // }
+    if (tempData.some(d => d.race !== undefined)) {
+      const categoryByName = new Map(tempData.map(d => [d.race, d.race]))
+      scale.domain(categoryByName.values());
+      return d => scale(categoryByName.get(d.race));
+    }
     return d => scale(d.race);
   }
 
