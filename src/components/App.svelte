@@ -59,7 +59,7 @@
   });
 
   $: if ((keyframes !== null) && (prev !== null) && (next !== null)) {
-    chart()
+    chart();
   }
 
   async function chart() {
@@ -75,7 +75,7 @@
       const updateTicker = ticker(svg);
 
       document.body.appendChild(svg.node()); // Append SVG to the DOM
-
+    
       for (const keyframe of keyframes) {
           const transition = svg.transition()
               .duration(duration)
@@ -83,13 +83,13 @@
 
           // Extract the top bar’s value.
           x.domain([0, keyframe[1][0].value]);
-
+          
           updateAxis(keyframe, transition);
           updateBars(keyframe, transition);
           updateLabels(keyframe, transition);
           updateTicker(keyframe, transition);
 
-          await new Promise(resolve => transition.end(resolve)); // Await the end of the transition
+          await transition.end();
       }
   }
 
