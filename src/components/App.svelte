@@ -9,6 +9,7 @@
   let nameframes = null;
   let prev = null;
   let next = null;
+  let color = null;
 
   let duration = 250;
   let n = 12;
@@ -56,9 +57,11 @@
     prev = new Map(nameframes.flatMap(([, tempData]) => d3.pairs(tempData, (a, b) => [b, a])));
     next = new Map(nameframes.flatMap(([, tempData]) => d3.pairs(tempData)));
 
+    color = create_color()
+
   });
 
-  $: if ((keyframes !== null) && (prev !== null) && (next !== null)) {
+  $: if ((keyframes !== null) && (prev !== null) && (next !== null) && (color !== null)) {
     chart();
   }
 
@@ -212,14 +215,9 @@
     };
   }
 
-  function color() {
-    const scale = d3.scaleOrdinal(d3.schemeTableau10);
-    if (tempData.some(d => d.race !== undefined)) {
-      const categoryByName = new Map(tempData.map(d => [d.race]))
-      scale.domain(categoryByName.values());
-      return d => scale(categoryByName.get(d.race));
-    }
-    return d => scale(d.race);
+  function create_color() {
+    let scale = d3.scaleOrdinal(d3.schemeTableau10);
+    return (d, i) => scale(i);
   }
 </script>
 
