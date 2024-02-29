@@ -5,35 +5,11 @@
   let tempData = [];
   let names = null;
   let datevalues = null;
-  let invalidation;
+  let keyframes = null;
+  let nameframes = null;
+  let prev = null;
+  let next = null;
 
-  onMount(async () => {
-      const res = await fetch('final_enrollment_data.csv'); 
-      const csv = await res.text();
-      tempData = d3.csvParse(csv, d3.autoType)
-      // console.log(tempData);
-
-      names = new Set(tempData.map(d => d.race));
-      // console.log(names);
-
-      datevalues = Array.from(d3.rollup(tempData, ([d]) => d.enrollment, d => +d.year, d => d.race))
-        .map(([date, tempData]) => [new Date(date), tempData])
-        .sort(([a], [b]) => d3.ascending(a, b))
-      // console.log(datevalues);
-
-      let currentFrameIndex = 0;
-      
-      // Render the chart
-      // chart();
-
-
-
-      // animateChart(); // Start the animation
-
-    }
-  )
-
-  // variables below
   let duration = 250;
   let n = 12;
   let k = 10;
@@ -42,55 +18,8 @@
   let marginRight = 6;
   let marginBottom = 6;
   let marginLeft = 0;
-
   let height = marginTop + barSize * n + marginBottom;
   let width = 1250;
-
-  let formatDate = d3.utcFormat("%Y");
-  let formatNumber = d3.format(",d");
-
-
-  // CUT CODE HERE
-  let keyframes = null;
-  let nameframes = null;
-  let prev = null;
-  let next = null;
-
-  $: if ((names !== null) && (datevalues !== null)) {
-    keyframes = create_keyframes();
-    // console.log(keyframes)
-  }
-
-  $: if (keyframes !== null) {
-    // nameframes = Array.from(d3.group(keyframes.flatMap(([, tempData]) => tempData), d => d.race));
-    nameframes = [];
-
-    // Manually group the data by name
-    keyframes.forEach(([date, data]) => {
-        data.forEach(item => {
-            const index = nameframes.findIndex(([name]) => name === item.name);
-            if (index === -1) {
-                nameframes.push([item.name, [item]]);
-            } else {
-                nameframes[index][1].push(item);
-            } 
-        });
-    });
-
-    console.log(nameframes)
-    // console.log(tempData[0].race)
-  }
-
-  $: if (nameframes !== null) {
-    prev = new Map(nameframes.flatMap(([, tempData]) => d3.pairs(tempData, (a, b) => [b, a])));
-    // console.log(prev)
-    next = new Map(nameframes.flatMap(([, tempData]) => d3.pairs(tempData)));
-    // console.log(next)
-  }
-
-  $: if ((keyframes !== null) && (prev !== null) && (next !== null)) {
-    chart();
-  }
 
   let x = d3.scaleLinear([0, 1], [marginLeft, width - marginRight]);
   let y = d3.scaleBand()
@@ -98,72 +27,73 @@
     .rangeRound([marginTop, marginTop + barSize * (n + 1 + 0.1)])
     .padding(0.1);
 
-  let tickFormat = undefined // override as desired
+  let formatDate = d3.utcFormat("%Y");
+  let formatNumber = d3.format(",d");
 
-  function animateChart() {
-    let currentFrameIndex = 0;
-    if (keyframes) {
-      const animate = () => {
-        if (currentFrameIndex < keyframes.length) {
-          chart(keyframes[currentFrameIndex]);
-          currentFrameIndex++;
-          setTimeout(animate, duration);
-        }
-      };
-      animate();
-    }
-  }
+  onMount(async () => {
+    const res = await fetch('final_enrollment_data.csv'); 
+    const csv = await res.text();
+    tempData = d3.csvParse(csv, d3.autoType);
+    names = new Set(tempData.map(d => d.race));
+    datevalues = Array.from(d3.rollup(tempData, ([d]) => d.enrollment, d => +d.year, d => d.race))
+      .map(([date, tempData]) => [new Date(date), tempData])
+      .sort(([a], [b]) => d3.ascending(a, b));
 
-  // chart function below
-  async function chart() {
-    // replay;
+    keyframes = create_keyframes();
+    nameframes = [];
 
-    const svg = d3.create("svg")
-        .attr("viewBox", [0, 0, width, height])
-        .attr("width", width)
-        .attr("height", height)
-        .attr("style", "max-width: 100%; height: auto;");
+    keyframes.forEach(([date, data]) => {
+      data.forEach(item => {
+        const index = nameframes.findIndex(([name]) => name === item.name);
+        if (index === -1) {
+          nameframes.push([item.name, [item]]);
+        } else {
+          nameframes[index][1].push(item);
+        } 
+      });
+    });
 
-    const updateBars = bars(svg);
-    const updateAxis = axis(svg);
-    const updateLabels = labels(svg);
-    const updateTicker = ticker(svg);
+    prev = new Map(nameframes.flatMap(([, tempData]) => d3.pairs(tempData, (a, b) => [b, a])));
+    next = new Map(nameframes.flatMap(([, tempData]) => d3.pairs(tempData)));
 
-    // yield svg.node();
+    
+    chart();
+  });
 
-    for (const keyframe of keyframes) {
-      const transition = svg.transition()
-          .duration(duration)
-          .ease(d3.easeLinear);
+  function chart() {
+      const svg = d3.create("svg")
+          .attr("viewBox", [0, 0, width, height])
+          .attr("width", width)
+          .attr("height", height)
+          .attr("style", "max-width: 100%; height: auto;");
 
-      // Extract the top bar’s value.
-      x.domain([0, keyframe[1][0].value]);
+      const updateBars = bars(svg);
+      const updateAxis = axis(svg);
+      const updateLabels = labels(svg);
+      const updateTicker = ticker(svg);
 
-      updateAxis(keyframe, transition);
-      updateBars(keyframe, transition);
-      updateLabels(keyframe, transition);
-      updateTicker(keyframe, transition);
+      for (const keyframe of keyframes) {
+        const transition = svg.transition()
+            .duration(duration)
+            .ease(d3.easeLinear);
 
-      // invalidation.then(() => svg.interrupt());
-      await transition.end();
-    }
+        x.domain([0, keyframe[1][0].value]);
 
-    // Chart to website
-    const container = document.getElementById('chart-container');
-    if (container) {
+        updateAxis(keyframe, transition);
+        updateBars(keyframe, transition);
+        updateLabels(keyframe, transition);
+        updateTicker(keyframe, transition);
+      }
+
+      const container = document.getElementById('chart-container');
+      if (container) {
         container.innerHTML = ''; // Clear existing content
         container.appendChild(svg.node());
+      }
+
+      // await transition.end();
     }
-  }
 
-
-
-  function rank(value) {
-    const data = Array.from(names, name => ({name, value: value(name)}));
-    data.sort((a, b) => d3.descending(a.value, b.value));
-    for (let i = 0; i < data.length; ++i) data[i].rank = Math.min(n, i);
-    return data;
-  }
 
   function create_keyframes() {
     const keyframes = [];
@@ -179,6 +109,15 @@
     }
     keyframes.push([new Date(kb), rank(name => b.get(name) || 0)]);
     return keyframes;
+  }
+
+  
+
+  function rank(value) {
+    const data = Array.from(names, name => ({name, value: value(name)}));
+    data.sort((a, b) => d3.descending(a.value, b.value));
+    for (let i = 0; i < data.length; ++i) data[i].rank = Math.min(n, i);
+    return data;
   }
 
   function bars(svg) {
@@ -220,7 +159,7 @@
           .attr("y", y.bandwidth() / 2)
           .attr("x", -6)
           .attr("dy", "-0.25em")
-          .text(d => d.race)
+          .text(d => d.name)
           .call(text => text.append("tspan")
             .attr("fill-opacity", 0.7)
             .attr("font-weight", "normal")
@@ -248,7 +187,7 @@
         .attr("transform", `translate(0,${marginTop})`);
 
     const axis = d3.axisTop(x)
-        .ticks(width / 160, tickFormat)
+        .ticks(width / 160)
         .tickSizeOuter(0)
         .tickSizeInner(-barSize * (n + y.padding()));
 
@@ -261,7 +200,6 @@
   }
 
   function ticker(svg) {
-    // console.log(keyframes[0][0])
     const now = svg.append("text")
         .style("font", `bold ${barSize}px var(--sans-serif)`)
         .style("font-variant-numeric", "tabular-nums")
@@ -279,13 +217,12 @@
   function color() {
     const scale = d3.scaleOrdinal(d3.schemeTableau10);
     if (tempData.some(d => d.race !== undefined)) {
-      const categoryByName = new Map(tempData.map(d => [d.race, d.race]))
+      const categoryByName = new Map(tempData.map(d => [d.race]))
       scale.domain(categoryByName.values());
       return d => scale(categoryByName.get(d.race));
     }
     return d => scale(d.race);
   }
-
 </script>
 
 <main id="chart-container">
@@ -293,13 +230,6 @@
     <svg id="chart-svg" viewBox="0 0 {width} {height}"></svg>
   {/if}
 </main>
-
-<!-- <main>
-  <h1>Svelte template</h1>
-
-
-  <p>Write your HTML here</p>
-</main> -->
 
 <style>
   /* Write your CSS here */
