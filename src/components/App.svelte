@@ -77,8 +77,20 @@
       const updateLabels = labels(svg);
       const updateTicker = ticker(svg);
 
-      document.body.appendChild(svg.node()); // Append SVG to the DOM
-    
+      // document.body.appendChild(svg.node()); // Append SVG to the DOM
+      const replayButton = document.createElement('button');
+      replayButton.textContent = 'Replay';
+      replayButton.addEventListener('click', replay);
+
+
+      const container = document.getElementById('chart-container');
+        if (container) {
+            container.innerHTML = ''; // Clear existing content
+            container.appendChild(replayButton);
+            container.appendChild(svg.node());
+        }
+
+
       for (const keyframe of keyframes) {
           const transition = svg.transition()
               .duration(duration)
@@ -219,9 +231,23 @@
     let scale = d3.scaleOrdinal(d3.schemeTableau10);
     return (d, i) => scale(i);
   }
+
+  // for chart replay
+  async function replay() {
+    const svg = d3.select("#chart-svg");
+
+    // Clear existing content of the SVG
+    svg.selectAll("*").remove();
+
+    // Call the chart function to redraw the chart
+    await chart();
+  }
+
 </script>
 
 <main id="chart-container">
+  <!-- <button on:click={replay}>Replay</button> -->
+
   {#if height > 0}
     <svg id="chart-svg" viewBox="0 0 {width} {height}"></svg>
   {/if}
