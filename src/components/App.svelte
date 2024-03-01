@@ -15,7 +15,7 @@
   let n = 7; // number of categories
   let k = 10;
   let barSize = 48;
-  let marginTop = 16;
+  let marginTop = 30;
   let marginRight = 6;
   let marginBottom = 6;
   let marginLeft = 0;
@@ -84,11 +84,23 @@
 
 
       const container = document.getElementById('chart-container');
-        if (container) {
-            container.innerHTML = ''; // Clear existing content
-            container.appendChild(replayButton);
-            container.appendChild(svg.node());
-        }
+      if (container) {
+        container.innerHTML = ''; // Clear existing content
+        
+        // Append the replay button to the container
+        const replayButton = document.createElement('button');
+        replayButton.textContent = 'Replay';
+        replayButton.className = 'replay-button';
+        replayButton.addEventListener('click', replay);
+        container.appendChild(replayButton);
+
+        replayButton.style.position = 'relative';
+        replayButton.style.top = '-305px'; // Adjust as needed
+        replayButton.style.right = '-165px'; // Adjust as needed
+
+
+        container.appendChild(svg.node());
+      }
 
 
       for (const keyframe of keyframes) {
@@ -248,10 +260,9 @@
 <h1>Understanding Education: How Has Schooling Changed Over the Years?</h1>
 
 <main id="chart-container">
-  <!-- <button on:click={replay}>Replay</button> -->
-
+  <button class="replay-button" on:click={replay}>Replay</button>
   {#if height > 0}
-    <svg id="chart-svg" viewBox="0 0 {width} {height}"></svg>
+    <svg id="chart-svg" viewBox="0 0 {width} {height + 50}"></svg>
   {/if}
   
 </main>
