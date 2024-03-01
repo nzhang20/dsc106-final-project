@@ -12,7 +12,7 @@
   let color = null;
 
   let duration = 250;
-  let n = 12;
+  let n = 7; // number of categories
   let k = 10;
   let barSize = 48;
   let marginTop = 16;
@@ -69,7 +69,7 @@
       const svg = d3.create("svg")
           .attr("viewBox", [0, 0, width, height])
           .attr("width", width)
-          .attr("height", height)
+          .attr("height", height - 65)
           .attr("style", "max-width: 100%; height: auto;");
 
       const updateBars = bars(svg);
@@ -161,7 +161,7 @@
     let label = svg.append("g")
         .style("font", "bold 12px var(--sans-serif)")
         .style("font-variant-numeric", "tabular-nums")
-        .attr("text-anchor", "end")
+        .attr("text-anchor", "start")
       .selectAll("text");
 
     return ([date, tempData], transition) => label = label
@@ -170,13 +170,13 @@
         enter => enter.append("text")
           .attr("transform", d => `translate(${x((prev.get(d) || d).value)},${y((prev.get(d) || d).rank)})`)
           .attr("y", y.bandwidth() / 2)
-          .attr("x", -6)
+          .attr("x", 5)
           .attr("dy", "-0.25em")
           .text(d => d.name)
           .call(text => text.append("tspan")
             .attr("fill-opacity", 0.7)
             .attr("font-weight", "normal")
-            .attr("x", -6)
+            .attr("x", 5)
             .attr("dy", "1.15em")),
         update => update,
         exit => exit.transition(transition).remove()
