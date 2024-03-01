@@ -245,14 +245,26 @@
 
 </script>
 
+<h1>Understanding Education: How Has Schooling Changed Over the Years?</h1>
+
 <main id="chart-container">
   <!-- <button on:click={replay}>Replay</button> -->
 
   {#if height > 0}
     <svg id="chart-svg" viewBox="0 0 {width} {height}"></svg>
   {/if}
+  
 </main>
 
 <style>
-  /* Write your CSS here */
+  /* Title style */
+  h1 {
+      font-size: 2.5rem;
+      margin-top: 50px;
+      margin-left: 250px;
+      margin-right: 250px;
+      color: #000; 
+      font-family: "Times New Roman"; 
+      text-align: left; /* Left align the title */
+  }
 </style>
