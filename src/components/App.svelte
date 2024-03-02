@@ -264,8 +264,9 @@
   {#if height > 0}
     <svg id="chart-svg" viewBox="0 0 {width} {height + 50}"></svg>
   {/if}
-  
 </main>
+
+
 
 <style>
   /* Title style */
