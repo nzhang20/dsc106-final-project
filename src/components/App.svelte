@@ -1,8 +1,11 @@
 <script>
   import { onMount } from 'svelte';
+  import { slopeChart } from '../components/slope_chart.svelte';
   import * as d3 from 'd3';
 
   let tempData = [];
+  let harass_bully_data = [];
+
   let names = null;
   let datevalues = null;
   let keyframes = null;
@@ -35,6 +38,13 @@
     const res = await fetch('final_enrollment_data.csv'); 
     const csv = await res.text();
     tempData = d3.csvParse(csv, d3.autoType);
+
+    // Data for slope_chart
+    const res2 = await fetch('final_harass_bully.csv'); 
+    const csv2 = await res2.text();
+    harass_bully_data = d3.csvParse(csv2, d3.autoType);
+    console.log(harass_bully_data);
+
     names = new Set(tempData.map(d => d.race));
     datevalues = Array.from(d3.rollup(tempData, ([d]) => d.enrollment, d => +d.year, d => d.race))
       .map(([date, tempData]) => [new Date(date), tempData])
@@ -58,11 +68,23 @@
     next = new Map(nameframes.flatMap(([, tempData]) => d3.pairs(tempData)));
 
     color = create_color()
-
   });
 
   $: if ((keyframes !== null) && (prev !== null) && (next !== null) && (color !== null)) {
     chart();
+  }
+
+  $: if (harass_bully_data.length > 0) {
+    const sc_harass_bully = slopeChart(harass_bully_data);
+
+    const container = document.getElementById('slope-chart-container');
+    if (container) {
+      container.innerHTML = ''; // Clear existing content
+      
+      // Append the replay button to the container
+      container.appendChild(sc_harass_bully);
+      console.log('hi');
+    }
   }
 
   async function chart() {
@@ -95,8 +117,8 @@
         container.appendChild(replayButton);
 
         replayButton.style.position = 'relative';
-        replayButton.style.top = '-305px'; // Adjust as needed
-        replayButton.style.right = '-165px'; // Adjust as needed
+        // replayButton.style.top = '-305px'; // Adjust as needed
+        // replayButton.style.right = '-165px'; // Adjust as needed
 
 
         container.appendChild(svg.node());
@@ -266,13 +288,26 @@
   {/if}
 </main>
 
+<p> Some text here .... </p>
 
+<main id="slope-chart-container">
+</main>
 
 <style>
   /* Title style */
   h1 {
       font-size: 2.5rem;
       margin-top: 50px;
+      margin-left: 250px;
+      margin-right: 250px;
+      color: #000; 
+      font-family: "Times New Roman"; 
+      text-align: left; /* Left align the title */
+  }
+  p {
+      font-size: 1rem;
+      margin-top: 50px;
+      margin-bottom: 50px;
       margin-left: 250px;
       margin-right: 250px;
       color: #000; 
