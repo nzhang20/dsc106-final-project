@@ -45,13 +45,31 @@
         .call(g => g.append("line").attr("y1", 3).attr("y2", 9).attr("stroke", "currentColor"));
 
     // Create a line for each name
-    svg.append("g")
-        .attr("fill", "none")
-        .attr("stroke", "currentColor")
+    const lines = svg.append("g")
+      .attr("fill", "none")
       .selectAll("path")
       .data(d3.group(data, d => d.type))
       .join("path")
-        .attr("d", ([, values]) => line(values));
+        .attr("d", ([, values]) => line(values))
+        .attr("class", "line") // Add class for easier selection
+        .attr("stroke", "currentColor") // Set the initial stroke color
+        .attr("stroke-width", 2) // Adjust stroke width as needed
+        .style("pointer-events", "all") // Allow lines to receive mouse events
+        .on("mouseenter", handleMouseEnter)
+        .on("mouseleave", handleMouseLeave);
+
+    function handleMouseEnter() {
+        d3.select(this)
+          .attr("stroke", "#af69ee"); // Change color to purple on hover
+    }
+
+    function handleMouseLeave() {
+        d3.select(this)
+            .attr("stroke", function() {
+                return d3.select(this).classed("hovered") ? "purple" : "currentColor";
+            }); // Revert color on mouse leave if not hovered
+    }
+
 
     // Create a group of labels for each year
     svg.append("g")
@@ -109,7 +127,6 @@
         .attr("dx", 15) // Adjust the horizontal position of the text
         .attr("fill", "currentColor")
         .style("font-size", "8px"); // You can adjust the font size as needed
-
 
     return svg.node();
   }
