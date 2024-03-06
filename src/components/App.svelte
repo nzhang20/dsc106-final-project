@@ -7,6 +7,7 @@
   let harass_bully_data = [];
   let harass_data = [];
   let discipline_data = [];
+  let ap_data = [];
 
   let names = null;
   let datevalues = null;
@@ -50,16 +51,17 @@
     const res3 = await fetch('final_harass_df.csv'); 
     const csv3 = await res3.text();
     harass_data = d3.csvParse(csv3, d3.autoType);
-    console.log(harass_data);
+    // console.log(harass_data);
 
     const res4 = await fetch('final_discipline_df.csv'); 
     const csv4 = await res4.text();
     discipline_data = d3.csvParse(csv4, d3.autoType);
 
     // Data for stacked bar chart
-    const res5 = await fetch('final_discipline_df.csv');
+    const res5 = await fetch('final_ap_df.csv');
     const csv5 = await res5.text();
     ap_data = d3.csvParse(csv5, d3.autoType);
+    console.log(ap_data);
 
     names = new Set(tempData.map(d => d.race));
     datevalues = Array.from(d3.rollup(tempData, ([d]) => d.enrollment, d => +d.year, d => d.race))
