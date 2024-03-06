@@ -6,15 +6,18 @@
   export function raceSlopeChart(originalData, harassData, disciplineData, dataType) {
     let data = [];
     let originalChart = slopeChart(originalData, harassData, disciplineData);
+    let chartTitle = ''
 
     if (dataType === 'harass') {
         data = harassData;
+        chartTitle = 'Number of Students Harassed by Race'
     } else {
         data = disciplineData;
+        chartTitle = 'Number of Students Disciplined by Race'
     };
 
     // Chart dimensions
-    const width = 750;
+    const width = 1000;
     const height = 450;
     const marginTop = 40;
     const marginRight = 50;
@@ -83,61 +86,71 @@
 
     // Create a group of labels for each year
     svg.append("g")
-      .selectAll("g")
-      .data(d3.group(data, d => d.year))
-      .join("g")
-        .attr("transform", ([step]) => `translate(${x(step) + (
-            step === "2017" ? padding
-          : step === "2011" ? -padding
-          : 0
-        )},0)`)
-        .attr("text-anchor", ([step]) =>
-            step === "2011" ? "end"
-            : step === "2017" ? "start"
-            : "middle")
-      .selectAll("text")
-      .data(([step, values]) => d3.zip(
-        values.map(
-            step === "2017" ? (d) => `${formatNumber(d.count)} ${d.race}`
-          : step === "2011" ? (d) => `${d.race} ${formatNumber(d.count)}`
-          : (d) => `${formatNumber(d.count)}`),
-        dodge(values.map(d => y(d.count)))))
-      .join("text")
-        .attr("y", ([, y]) => y)
-        .attr("dy", "0.35em")
-        .text(([text]) => text)
-        .attr("fill", "currentColor")
-        .attr("stroke", "white")
-        .attr("stroke-width", 5)
-        .attr("paint-order", "stroke");
+        .selectAll("g")
+        .data(d3.group(data, d => d.year))
+        .join("g")
+            .attr("transform", ([step]) => `translate(${x(step) + (
+                step === "2017" ? padding
+            : step === "2011" ? -padding
+            : 0
+            )},0)`)
+            .attr("text-anchor", ([step]) =>
+                step === "2011" ? "end"
+                : step === "2017" ? "start"
+                : "middle")
+        .selectAll("text")
+        .data(([step, values]) => {
+            const raceCounts = {};
+            values.forEach(d => raceCounts[d.race] = d.count);
+            return Object.entries(raceCounts).map(([race, count]) => ({ race, count }));
+        })
+        .join("text")
+            .attr("y", d => y(d.count))
+            .attr("dy", "0.35em")
+            .text(d => `${formatNumber(d.count)}`)
+            .attr("fill", "currentColor")
+            .attr("stroke", "white")
+            .attr("stroke-width", 5)
+            .attr("paint-order", "stroke");
 
     svg.append("g")
       .selectAll("g")
       .data(d3.group(data, d => d.race))
       .join("g")
       .append("text")
-        .attr("x", d => x(d[0][d[1].length - 1].year)) // Place the text at the x-coordinate of the last data point for each type
-        .attr("y", d => y(d[1][0].count)) // Place the text at the y-coordinate of the first data point for each type
-        .text(d => d[0]) // Use the type as the text content
-        .attr("dy", "0.35em") // Adjust the vertical position of the text
-        .attr("dx", 110) // Adjust the horizontal position of the text
+        .attr("x", d => x(d[0][d[1].length - 1].year)) 
+        .attr("y", d => y(d[1][0].count)) 
+        .text(d => d[0]) // Use type as text 
+        .attr("dy", "0.35em")
+        .attr("dx", 150)
         .attr("text-anchor", "end") 
         .attr("fill", "currentColor")
-        .style("font-size", "7px"); // You can adjust the font size as needed
+        .style("font-size", "7px"); 
     
     svg.append("g")
       .selectAll("g")
       .data(d3.group(data, d => d.race))
       .join("g")
       .append("text")
-        .attr("x", d => x(d[1][d[1].length - 1].year)) // Place the text at the x-coordinate of the last data point for each type
-        .attr("y", d => y(d[1][d[1].length - 2].count)) // Place the text at the y-coordinate of the first data point for each type
-        .text(d => d[0]) // Use the type as the text content
-        .attr("dy", "0.4em") // Adjust the vertical position of the text
-        .attr("dx", 15) // Adjust the horizontal position of the text
+        .attr("x", d => x(d[1][d[1].length - 1].year)) 
+        .attr("y", d => y(d[1][d[1].length - 1].count))
+        .text(d => d[0]) // Use type as text 
+        .attr("dy", "0.4em")
+        .attr("dx", 15)
         .attr("text-anchor", "start") 
         .attr("fill", "currentColor")
-        .style("font-size", "7px"); // You can adjust the font size as needed
+        .style("font-size", "7px");
+
+    // add title
+    svg.append("text")
+       .attr("x", (width + marginLeft - marginRight) / 2)
+       .attr("y", marginTop / 2)
+       .attr("text-anchor", "middle")
+       .text(chartTitle)
+       .attr("fill", "currentColor")
+       .style("font-size", "10px")
+       .attr("dy", "-1.25em");
+
 
     // return back to original graph
     svg.on("click", () => {
