@@ -1,12 +1,21 @@
 <script context="module">
   import * as d3 from 'd3';
-  import { raceSlopeChart } from './race_slope_chart.svelte';
+  import { slopeChart } from '../components/slope_chart.svelte';
 
   // Function for slope chart
-  export function slopeChart(data, harassData, disciplineData) {
+  export function raceSlopeChart(originalData, harassData, disciplineData, dataType) {
+    let data = [];
+    let originalChart = slopeChart(originalData, harassData, disciplineData);
+
+    if (dataType === 'harass') {
+        data = harassData;
+    } else {
+        data = disciplineData;
+    };
+
     // Chart dimensions
     const width = 750;
-    const height = 250;
+    const height = 450;
     const marginTop = 40;
     const marginRight = 50;
     const marginBottom = 10;
@@ -49,7 +58,7 @@
     const lines = svg.append("g")
       .attr("fill", "none")
       .selectAll("path")
-      .data(d3.group(data, d => d.type))
+      .data(d3.group(data, d => d.race))
       .join("path")
         .attr("d", ([, values]) => line(values))
         .attr("class", "line") // Add class for easier selection
@@ -57,28 +66,11 @@
         .attr("stroke-width", 2) // Adjust stroke width as needed
         .style("pointer-events", "all") // Allow lines to receive mouse events
         .on("mouseenter", handleMouseEnter)
-        .on("mouseleave", handleMouseLeave)
-        .on("click", handleMouseClick);
+        .on("mouseleave", handleMouseLeave);
 
     function handleMouseEnter() {
         d3.select(this)
           .attr("stroke", "#af69ee"); // Change color to purple on hover
-    }
-
-    function handleMouseClick(event) {
-        const type = event.target.__data__[0]; // Assuming the type is stored as the first element of the data array associated with each line
-        const container = document.getElementById('slope-chart-container');
-        if (container) {
-            container.innerHTML = ''; // Clear existing content
-            
-            if (type === "# Harassed") {
-              const sc_harass = raceSlopeChart(data, harassData, disciplineData, 'harass'); // Generate race slope chart with harassData
-              container.appendChild(sc_harass); // Append the race slope chart to the container
-            } else if (type === "# Disciplined") {
-              const sc_discipline = raceSlopeChart(data, harassData, disciplineData, 'discipline'); // Generate race slope chart with disciplineData
-              container.appendChild(sc_discipline); // Append the race slope chart to the container
-            }
-        }
     }
 
     function handleMouseLeave() {
@@ -106,8 +98,8 @@
       .selectAll("text")
       .data(([step, values]) => d3.zip(
         values.map(
-            step === "2017" ? (d) => `${formatNumber(d.count)} ${d.type}`
-          : step === "2011" ? (d) => `${d.type} ${formatNumber(d.count)}`
+            step === "2017" ? (d) => `${formatNumber(d.count)} ${d.race}`
+          : step === "2011" ? (d) => `${d.race} ${formatNumber(d.count)}`
           : (d) => `${formatNumber(d.count)}`),
         dodge(values.map(d => y(d.count)))))
       .join("text")
@@ -121,7 +113,7 @@
 
     svg.append("g")
       .selectAll("g")
-      .data(d3.group(data, d => d.type))
+      .data(d3.group(data, d => d.race))
       .join("g")
       .append("text")
         .attr("x", d => x(d[0][d[1].length - 1].year)) // Place the text at the x-coordinate of the last data point for each type
@@ -131,20 +123,32 @@
         .attr("dx", 110) // Adjust the horizontal position of the text
         .attr("text-anchor", "end") 
         .attr("fill", "currentColor")
-        .style("font-size", "8px"); // You can adjust the font size as needed
+        .style("font-size", "7px"); // You can adjust the font size as needed
     
     svg.append("g")
       .selectAll("g")
-      .data(d3.group(data, d => d.type))
+      .data(d3.group(data, d => d.race))
       .join("g")
       .append("text")
         .attr("x", d => x(d[1][d[1].length - 1].year)) // Place the text at the x-coordinate of the last data point for each type
-        .attr("y", d => y(d[1][d[1].length - 1].count)) // Place the text at the y-coordinate of the first data point for each type
+        .attr("y", d => y(d[1][d[1].length - 2].count)) // Place the text at the y-coordinate of the first data point for each type
         .text(d => d[0]) // Use the type as the text content
         .attr("dy", "0.4em") // Adjust the vertical position of the text
         .attr("dx", 15) // Adjust the horizontal position of the text
+        .attr("text-anchor", "start") 
         .attr("fill", "currentColor")
-        .style("font-size", "8px"); // You can adjust the font size as needed
+        .style("font-size", "7px"); // You can adjust the font size as needed
+
+    // return back to original graph
+    svg.on("click", () => {
+        const container = document.getElementById('slope-chart-container');
+        if (container) {
+            container.innerHTML = ''; // Clear existing content
+            
+            container.append(originalChart);
+        }
+});
+
 
     return svg.node();
   }

@@ -5,6 +5,8 @@
 
   let tempData = [];
   let harass_bully_data = [];
+  let harass_data = [];
+  let discipline_data = [];
 
   let names = null;
   let datevalues = null;
@@ -43,7 +45,16 @@
     const res2 = await fetch('final_harass_bully.csv'); 
     const csv2 = await res2.text();
     harass_bully_data = d3.csvParse(csv2, d3.autoType);
-    console.log(harass_bully_data);
+    // console.log(harass_bully_data);
+
+    const res3 = await fetch('final_harass_df.csv'); 
+    const csv3 = await res3.text();
+    harass_data = d3.csvParse(csv3, d3.autoType);
+    console.log(harass_data);
+
+    const res4 = await fetch('final_discipline_df.csv'); 
+    const csv4 = await res4.text();
+    discipline_data = d3.csvParse(csv4, d3.autoType);
 
     names = new Set(tempData.map(d => d.race));
     datevalues = Array.from(d3.rollup(tempData, ([d]) => d.enrollment, d => +d.year, d => d.race))
@@ -74,8 +85,8 @@
     chart();
   }
 
-  $: if (harass_bully_data.length > 0) {
-    const sc_harass_bully = slopeChart(harass_bully_data);
+  $: if ((harass_bully_data.length > 0) && (harass_data.length > 0) && (discipline_data.length > 0)) {
+    const sc_harass_bully = slopeChart(harass_bully_data, harass_data, discipline_data);
 
     const container = document.getElementById('slope-chart-container');
     if (container) {
@@ -83,7 +94,7 @@
       
       // Append the replay button to the container
       container.appendChild(sc_harass_bully);
-      console.log('hi');
+      // console.log('hi');
     }
   }
 
