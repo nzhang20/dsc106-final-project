@@ -56,6 +56,11 @@
     const csv4 = await res4.text();
     discipline_data = d3.csvParse(csv4, d3.autoType);
 
+    // Data for stacked bar chart
+    const res5 = await fetch('final_discipline_df.csv');
+    const csv5 = await res5.text();
+    ap_data = d3.csvParse(csv5, d3.autoType);
+
     names = new Set(tempData.map(d => d.race));
     datevalues = Array.from(d3.rollup(tempData, ([d]) => d.enrollment, d => +d.year, d => d.race))
       .map(([date, tempData]) => [new Date(date), tempData])
