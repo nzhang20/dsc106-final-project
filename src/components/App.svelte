@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { slopeChart } from '../components/slope_chart.svelte';
-  // import { stackedBarChart } from '../components/exam_stacked_bar.svelte';
+  import { stackedBarChart } from './exam_stacked_bar.svelte';
   import * as d3 from 'd3';
 
   let tempData = [];
@@ -98,11 +98,20 @@
 
     const container = document.getElementById('slope-chart-container');
     if (container) {
-      container.innerHTML = ''; // Clear existing content
-      
-      // Append the replay button to the container
+      container.innerHTML = '';
+
       container.appendChild(sc_harass_bully);
-      // console.log('hi');
+    }
+  }
+
+  $: if (ap_data.length > 0) {
+    const ap_stacked_bar = stackedBarChart(ap_data);
+    console.log('hi');
+    const container = document.getElementById('stackedbar-chart-container');
+    if (container) {
+      container.innerHTML = '';
+
+      container.appendChild(ap_stacked_bar);
     }
   }
 
@@ -311,6 +320,11 @@
 
 <main id="slope-chart-container">
 </main>
+
+
+<main id="stackedbar-chart-container">
+</main>
+
 
 <style>
   /* Title style */

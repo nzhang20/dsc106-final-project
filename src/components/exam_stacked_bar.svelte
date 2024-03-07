@@ -1,4 +1,4 @@
-<script>
+<script context="module">
     import * as d3 from 'd3';
 
     export function stackedBarChart(ap_data) {
