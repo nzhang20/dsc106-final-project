@@ -186,8 +186,6 @@
     return keyframes;
   }
 
-  
-
   function rank(value) {
     const data = Array.from(names, name => ({name, value: value(name)}));
     data.sort((a, b) => d3.descending(a.value, b.value));
@@ -307,7 +305,14 @@
 
 </script>
 
-<h1>Understanding Education: How Has Schooling Changed Over the Years?</h1>
+<h1>
+  <!-- Understanding Education: How Has Schooling Changed Over the Years? -->
+  Critical Race Theory (CRT) and Education
+</h1>
+
+<h2>
+  Diversity in Education: How Has Schooling Changed Over the Years?
+</h2>
 
 <main id="chart-container">
   <button class="replay-button" on:click={replay}>Replay</button>
@@ -316,7 +321,8 @@
   {/if}
 </main>
 
-<p> Some text here .... </p>
+<p> Critical Race Theory (CRT): racial bias is inherent in many parts of society, including educational institutions </p>
+<!-- on the basis of their having been primarily designed for and implemented by white people. -->
 
 <main id="slope-chart-container">
 </main>
@@ -337,6 +343,15 @@
       font-family: "Times New Roman"; 
       text-align: left; /* Left align the title */
   }
+  h2 {
+      font-size: 1.25rem;
+      margin-top: -20px;
+      margin-left: 250px;
+      margin-right: 250px;
+      color: #000; 
+      font-family: "Times New Roman"; 
+      text-align: left; /* Left align the title */
+  }
   p {
       font-size: 1rem;
       margin-top: 50px;
@@ -345,6 +360,6 @@
       margin-right: 250px;
       color: #000; 
       font-family: "Times New Roman"; 
-      text-align: left; /* Left align the title */
+      text-align: justify; /* Left align the title */
   }
 </style>
