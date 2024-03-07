@@ -32,24 +32,22 @@
         const width = parseInt(d3.select('body').style('width'), 10) - margin.left - margin.right;
         const height = parseInt(d3.select('body').style('height'), 10) - margin.top - margin.bottom;
 
-        const x = d3.scale.ordinal()
-            .rangeRoundBands([0, width], .1, .3);
+        const x = d3.scaleBand()
+            .range([0, width])
+            .padding(0.1);
 
-        const y = d3.scale.linear()
-            .rangeRound([height, 0]);
+        const y = d3.scaleLinear()
+            .range([height, 0]);
 
-        const colorRange = d3.scale.category20();
-        const color = d3.scale.ordinal()
+        const colorRange = d3.scaleOrdinal(d3.schemeCategory10);
+        const color = d3.scaleBand()
             .range(colorRange.range());
 
-        const xAxis = d3.svg.axis()
-            .scale(x)
-            .orient("bottom");
+        const xAxis = d3.axisBottom(x);
 
-        const yAxis = d3.svg.axis()
-            .scale(y)
-            .orient("left")
+        const yAxis = d3.axisLeft(y)
             .tickFormat(d3.format(".2s"));
+
 
         const svg = d3.select("body").append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -59,7 +57,7 @@
 
         const divTooltip = d3.select("body").append("div").attr("class", "toolTip");
 
-        color.domain(d3.keys(dataset[0]).filter(function (key) { return key !== "label"; }));
+        color.domain(Object.keys(dataset[0]).filter(function (key) { return key !== "label"; }));
 
         dataset.forEach(function (d) {
             let y0 = 0;
@@ -92,14 +90,14 @@
             .attr("transform", function (d) { return "translate(" + x(d.label) + ",0)"; });
 
         svg.selectAll(".x.axis .tick text")
-            .call(wrap, x.rangeBand());
+            .call(wrap, x.bandwidth());
 
         const bar_enter = bar.selectAll("rect")
             .data(function (d) { return d.values; })
             .enter();
 
         bar_enter.append("rect")
-            .attr("width", x.rangeBand())
+            .attr("width", x.bandwidth())
             .attr("y", function (d) { return y(d.y1); })
             .attr("height", function (d) { return y(d.y0) - y(d.y1); })
             .style("fill", function (d) { return color(d.name); });
@@ -107,7 +105,7 @@
         bar_enter.append("text")
             .text(function (d) { return d3.format(".2s")(d.y1 - d.y0) + "%"; })
             .attr("y", function (d) { return y(d.y1) + (y(d.y0) - y(d.y1)) / 2; })
-            .attr("x", x.rangeBand() / 3)
+            .attr("x", x.bandwidth() / 3)
             .style("fill", '#ffffff');
 
         bar
