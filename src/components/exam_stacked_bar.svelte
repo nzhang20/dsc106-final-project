@@ -62,6 +62,7 @@
         dataset.forEach(function (d) {
             let y0 = 0;
             d.values = color.domain().map(function (name) { return { name: name, y0: y0, y1: y0 += +d[name] }; });
+            console.log(d.values)
             d.total = d.values[d.values.length - 1].y1;
         });
 
