@@ -61,8 +61,15 @@
 
         dataset.forEach(function (d) {
             let y0 = 0;
-            d.values = color.domain().map(function (name) { return { name: name, y0: y0, y1: y0 += +d[name] }; });
-            d.total = d.values[d.values.length - 1].y1;
+            d.total = d3.sum(Object.keys(d).slice(1).map(key => d[key])); // Calculate total value for each bar
+            d.values = color.domain().map(function (name) {
+                return {
+                    name: name,
+                    percentage: (d[name] / d.total) * 100, // Calculate percentage for each segment
+                    y0: y0,
+                    y1: y0 += +d[name]
+                };
+            });
         });
 
         x.domain(dataset.map(function (d) { return d.Race; }));
@@ -103,11 +110,10 @@
             .style("fill", function (d) { return color(d.name); });
 
         bar_enter.append("text")
-            .text(function (d) { return d.y1 - d.y0; }) // Display the actual numerical value
+            .text(function (d) { return d3.format(".2f")(d.percentage) + "%"; }) // Display the percentage
             .attr("y", function (d) { return y(d.y1) + (y(d.y0) - y(d.y1)) / 2; })
             .attr("x", x.bandwidth() / 3)
             .style("fill", '#ffffff');
-
 
         // tooltip
         bar
