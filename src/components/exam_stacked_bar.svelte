@@ -40,14 +40,14 @@
             .range([height, 0]);
 
         const colorRange = d3.scaleOrdinal(d3.schemeCategory10);
-        const color = d3.scaleBand()
-            .range(colorRange.range());
+        const color = d3.scaleOrdinal()
+            .domain(Object.keys(dataset[0]).filter(function (key, index) { return index > 0; }))
+            .range(["#1f77b4", "#ff7f0e", "#2ca02c"]);
 
         const xAxis = d3.axisBottom(x);
 
         const yAxis = d3.axisLeft(y)
             .tickFormat(d3.format(".2s"));
-
 
         const svg = d3.select("body").append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -57,7 +57,7 @@
 
         const divTooltip = d3.select("body").append("div").attr("class", "toolTip");
 
-        color.domain(Object.keys(dataset[0]).filter(function (key) { return key !== "label"; }));
+        color.domain(Object.keys(dataset[0]).filter(function (key) { return key !== "Race"; }));
 
         dataset.forEach(function (d) {
             let y0 = 0;
@@ -65,7 +65,7 @@
             d.total = d.values[d.values.length - 1].y1;
         });
 
-        x.domain(dataset.map(function (d) { return d.label; }));
+        x.domain(dataset.map(function (d) { return d.Race; }));
         y.domain([0, d3.max(dataset, function (d) { return d.total; })]);
 
         svg.append("g")
@@ -83,11 +83,11 @@
             .style("text-anchor", "end")
             .text("Satisfaction %");
 
-        const bar = svg.selectAll(".label")
+        const bar = svg.selectAll(".Race")
             .data(dataset)
             .enter().append("g")
             .attr("class", "g")
-            .attr("transform", function (d) { return "translate(" + x(d.label) + ",0)"; });
+            .attr("transform", function (d) { return "translate(" + x(d.Race) + ",0)"; });
 
         svg.selectAll(".x.axis .tick text")
             .call(wrap, x.bandwidth());
@@ -103,40 +103,53 @@
             .style("fill", function (d) { return color(d.name); });
 
         bar_enter.append("text")
-            .text(function (d) { return d3.format(".2s")(d.y1 - d.y0) + "%"; })
+            .text(function (d) { return d.y1 - d.y0; }) // Display the actual numerical value
             .attr("y", function (d) { return y(d.y1) + (y(d.y0) - y(d.y1)) / 2; })
             .attr("x", x.bandwidth() / 3)
             .style("fill", '#ffffff');
 
+
+        // tooltip
         bar
-            .on("mousemove", function (d) {
-                divTooltip.style("left", d3.event.pageX + 10 + "px");
-                divTooltip.style("top", d3.event.pageY - 25 + "px");
+            .on("mousemove", function (event, d) {
+                divTooltip.style("left", (event.pageX + 10) + "px");
+                divTooltip.style("top", (event.pageY - 25) + "px");
                 divTooltip.style("display", "inline-block");
                 const elements = document.querySelectorAll(':hover');
                 let l = elements.length;
                 l = l - 1;
                 const element = elements[l].__data__;
                 const value = element.y1 - element.y0;
-                divTooltip.html((d.label) + "<br>" + element.name + "<br>" + value + "%");
+                divTooltip.html((d.Race) + "<br>" + element.name + "<br>" + value);
             });
 
         bar
-            .on("mouseout", function (d) {
+            .on("mouseout", function () {
                 divTooltip.style("display", "none");
             });
 
-        svg.append("g")
-            .attr("class", "legendLinear")
-            .attr("transform", "translate(0," + (height + 30) + ")");
 
-        const legend = d3.legend.color()
-            .shapeWidth(height / 4)
-            .shapePadding(10)
-            .orient('horizontal')
-            .scale(color);
+        // legend
+        const legend = svg.selectAll(".legend")
+            .data(color.domain().slice().reverse())
+            .enter().append("g")
+            .attr("class", "legend")
+            .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
 
-        svg.select(".legendLinear")
+        legend.append("rect")
+            .attr("x", width - 18)
+            .attr("width", 18)
+            .attr("height", 18)
+            .style("fill", color);
+
+        legend.append("text")
+            .attr("x", width - 24)
+            .attr("y", 9)
+            .attr("dy", ".35em")
+            .style("text-anchor", "end")
+            .text(function (d) { return d; });
+
+        svg.select(".legend")
             .call(legend);
 
         return svg.node();

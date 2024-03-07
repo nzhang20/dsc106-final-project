@@ -106,7 +106,7 @@
 
   $: if (ap_data.length > 0) {
     const ap_stacked_bar = stackedBarChart(ap_data);
-    console.log('hi');
+    // console.log('hi');
     const container = document.getElementById('stackedbar-chart-container');
     if (container) {
       container.innerHTML = '';
