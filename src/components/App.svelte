@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { slopeChart } from '../components/slope_chart.svelte';
+  // import { stackedBarChart } from '../components/exam_stacked_bar.svelte';
   import * as d3 from 'd3';
 
   let tempData = [];
