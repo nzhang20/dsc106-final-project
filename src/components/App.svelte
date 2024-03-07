@@ -321,7 +321,7 @@
   {/if}
 </main>
 
-<p> Critical Race Theory (CRT): racial bias is inherent in many parts of society, including educational institutions </p>
+<p> Critical Race Theory (CRT): the theory that racial bias is inherent in many parts of society, including educational institutions </p>
 <!-- on the basis of their having been primarily designed for and implemented by white people. -->
 
 <main id="slope-chart-container">
