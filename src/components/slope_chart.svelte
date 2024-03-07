@@ -5,7 +5,7 @@
   // Function for slope chart
   export function slopeChart(data, harassData, disciplineData) {
     // Chart dimensions
-    const width = 750;
+    const width = 1000;
     const height = 250;
     const marginTop = 40;
     const marginRight = 50;
