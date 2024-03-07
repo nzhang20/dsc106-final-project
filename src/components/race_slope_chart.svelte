@@ -113,33 +113,101 @@
             .attr("stroke-width", 5)
             .attr("paint-order", "stroke");
 
+    // begining text
+    // svg.append("g")
+    //   .selectAll("g")
+    //   .data(d3.group(data, d => d.race))
+    //   .join("g")
+    //   .append("text")
+    //     .attr("x", d => x(d[0][d[1].length - 1].year)) 
+    //     .attr("y", d => y(d[1][0].count)) 
+    //     .text(d => d[0]) // Use type as text 
+    //     .attr("dy", "0.35em")
+    //     .attr("dx", 150)
+    //     .attr("text-anchor", "end") 
+    //     .attr("fill", "currentColor")
+    //     .style("font-size", "7px"); 
+    let startYPositions = {};
+
     svg.append("g")
-      .selectAll("g")
-      .data(d3.group(data, d => d.race))
-      .join("g")
-      .append("text")
-        .attr("x", d => x(d[0][d[1].length - 1].year)) 
-        .attr("y", d => y(d[1][0].count)) 
-        .text(d => d[0]) // Use type as text 
-        .attr("dy", "0.35em")
-        .attr("dx", 150)
-        .attr("text-anchor", "end") 
-        .attr("fill", "currentColor")
-        .style("font-size", "7px"); 
+        .selectAll("g")
+        .data(d3.group(data, d => d.race))
+        .join("g")
+            .append("text")
+            .attr("x", d => x(d[0][d[1].length - 1].year)) 
+            .attr("y", d => {
+                const yPosition = Math.round(y(d[1][0].count) / 10) * 10;
+                console.log(d[0], yPosition);
+                if (startYPositions[yPosition] !== undefined) {
+                    const lastY = startYPositions[yPosition];
+                    const lastHeight = parseFloat(svg.select(`text[y="${lastY}"]`).node().getBBox().height);
+                    let newY = lastY + lastHeight + 10; // Adjust this value to control the vertical spacing between text elements
+                    while (startYPositions[newY] !== undefined) {
+                        newY = newY + 10
+                    }
+                    startYPositions[newY] = newY;
+                    console.log('moved')
+                    console.log(d[0], newY);
+                    return newY - 3;
+                } else {
+                    startYPositions[yPosition] = yPosition;
+                    return yPosition;
+                }
+            })
+            .text(d => d[0]) // Use type as text 
+            .attr("dx", 150)
+            .attr("text-anchor", "end") 
+            .attr("fill", "currentColor")
+            .style("font-size", "7px");
+
     
+    // end text
+    // svg.append("g")
+    //   .selectAll("g")
+    //   .data(d3.group(data, d => d.race))
+    //   .join("g")
+    //   .append("text")
+    //     .attr("x", d => x(d[1][d[1].length - 1].year)) 
+    //     .attr("y", d => y(d[1][d[1].length - 1].count))
+    //     .text(d => d[0]) // Use type as text 
+    //     .attr("dy", "0.4em")
+    //     .attr("dx", 15)
+    //     .attr("text-anchor", "start") 
+    //     .attr("fill", "currentColor")
+    //     .style("font-size", "7px");
+    let lastYPositions = {};
+
     svg.append("g")
-      .selectAll("g")
-      .data(d3.group(data, d => d.race))
-      .join("g")
-      .append("text")
-        .attr("x", d => x(d[1][d[1].length - 1].year)) 
-        .attr("y", d => y(d[1][d[1].length - 1].count))
-        .text(d => d[0]) // Use type as text 
-        .attr("dy", "0.4em")
-        .attr("dx", 15)
-        .attr("text-anchor", "start") 
-        .attr("fill", "currentColor")
-        .style("font-size", "7px");
+        .selectAll("g")
+        .data(d3.group(data, d => d.race))
+        .join("g")
+            .append("text")
+            .attr("x", d => x(d[1][d[1].length - 1].year)) 
+            .attr("y", d => {
+                const yPosition = Math.round(y(d[1][d[1].length - 1].count) / 10) * 10;
+                // console.log(d[0], yPosition);
+                if (lastYPositions[yPosition] !== undefined) {
+                    const lastY = lastYPositions[yPosition];
+                    const lastHeight = parseFloat(svg.select(`text[y="${lastY}"]`).node().getBBox().height);
+                    let newY = lastY + lastHeight + 10; // Adjust this value to control the vertical spacing between text elements
+                    while (lastYPositions[newY] !== undefined) {
+                        newY = newY + 10
+                    }
+                    lastYPositions[newY] = newY;
+                    // console.log('moved');
+                    // console.log(d[0], newY);
+                    return newY - 3;
+                } else {
+                    lastYPositions[yPosition] = yPosition;
+                    return yPosition;
+                }
+            })
+            .text(d => d[0]) // Use type as text 
+            .attr("dx", 15)
+            .attr("text-anchor", "start") 
+            .attr("fill", "currentColor")
+            .style("font-size", "7px");
+
 
     // add title
     svg.append("text")
