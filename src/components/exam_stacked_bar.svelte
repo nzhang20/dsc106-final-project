@@ -63,6 +63,7 @@
             let y0 = 0;
             d.total = d3.sum(Object.keys(d).slice(1).map(key => d[key])); // Calculate total value for each bar
             d.values = color.domain().map(function (name) {
+                const percentage = (d[name] / d.total) * 100; // Calculate percentage for each segment
                 return {
                     name: name,
                     percentage: (d[name] / d.total) * 100, // Calculate percentage for each segment
@@ -111,7 +112,7 @@
             .attr("height", function (d) { return y(d.y0) - y(d.y1); })
             .style("fill", function (d) { return color(d.name); });
 
-        
+                
         // bar_enter.append("text")
         //     .text(function (d) { return d3.format(".2f")(d.percentage) + "%"; }) // Display the percentage
         //     .attr("y", function (d) { return y(d.y1) + (y(d.y0) - y(d.y1)) / 2; })
@@ -129,7 +130,7 @@
                 l = l - 1;
                 const element = elements[l].__data__;
                 const value = element.y1 - element.y0;
-                divTooltip.html((d.Race) + "<br>" + element.name + "<br>" + value);
+                divTooltip.html((d.Race) + "<br>" + element.name + "<br>" + value + "<br>" + d3.format(".2f")(element.percentage) + "%");
             });
 
         bar
