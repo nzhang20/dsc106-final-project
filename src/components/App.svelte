@@ -5,8 +5,11 @@
   import Scroller from "@sveltejs/svelte-scroller"
   import * as d3 from 'd3';
 
-  let count, index, offset, progress;
+  let count, offset, progress;
+  let index = 0;
+
   let scrollerWidth, scrollerHeight;
+  let showBarChart = false; // only show bar chart when scrolled there
 
   let tempData = [];
   let harass_bully_data = [];
@@ -89,8 +92,12 @@
 
     prev = new Map(nameframes.flatMap(([, tempData]) => d3.pairs(tempData, (a, b) => [b, a])));
     next = new Map(nameframes.flatMap(([, tempData]) => d3.pairs(tempData)));
-
+    
     color = create_color()
+    
+    window.addEventListener('scroll', updateIndex);
+    return () => window.removeEventListener('scroll', updateIndex);
+
   });
 
   $: if ((keyframes !== null) && (prev !== null) && (next !== null) && (color !== null)) {
@@ -119,6 +126,25 @@
     }
   }
 
+  function updateIndex() {
+    const scrollPosition = window.scrollY;
+    const windowHeight = window.innerHeight;
+    const totalHeight = document.body.clientHeight;
+    const sectionHeight = totalHeight / count;
+
+    // Calculate the index based on scroll position and section height
+    index = Math.floor((scrollPosition + windowHeight / 2) / sectionHeight);
+    
+    // only show bar chart race once it gets to index 2
+    if (index >= 2) {
+      showBarChart = true;
+    } else {
+      showBarChart = false;
+    }
+  }
+
+
+
   async function chart() {
       const svg = d3.create("svg")
           .attr("viewBox", [0, 0, width, height])
@@ -138,7 +164,7 @@
 
 
       const container = document.getElementById('chart-container');
-      if (container) {
+      if (container && showBarChart) {
         container.innerHTML = ''; // Clear existing content
         
         // Append the replay button to the container
@@ -346,7 +372,7 @@
       <section>
         <main id="chart-container">
           <button class="replay-button" on:click={replay}>Replay</button>
-          {#if height > 0}
+          {#if height > 0 && showBarChart}
             <svg id="chart-svg" viewBox="0 0 {width} {height + 50}"></svg>
           {/if}
         </main>
@@ -365,9 +391,6 @@
       <section>This is the fifth section.
 
       </section>
-      <section>This is the sixth section.
-        
-      </section>
     </div>
 </Scroller>
 
@@ -375,7 +398,6 @@
   /* Title style */
   h1 {
       font-size: 2.5rem;
-      margin-top: 50px;
       margin-left: 250px;
       margin-right: 250px;
       color: #000; 
@@ -416,8 +438,13 @@
   }
 
   section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* center horizontally */
+    align-items: center; /* center vertically */
+
     width: 75%;
-    height: 80vh;
+    height: 90vh;
     background-color: rgba(0, 0, 0, 0.2); /* 20% opaque */
     /* color: white; */
     outline: magenta solid 3px;
