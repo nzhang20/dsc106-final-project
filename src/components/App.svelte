@@ -2,7 +2,11 @@
   import { onMount } from 'svelte';
   import { slopeChart } from '../components/slope_chart.svelte';
   import { stackedBarChart } from './exam_stacked_bar.svelte';
+  import Scroller from "@sveltejs/svelte-scroller"
   import * as d3 from 'd3';
+
+  let count, index, offset, progress;
+  let scrollerWidth, scrollerHeight;
 
   let tempData = [];
   let harass_bully_data = [];
@@ -305,32 +309,67 @@
 
 </script>
 
-<h1>
-  <!-- Understanding Education: How Has Schooling Changed Over the Years? -->
-  Critical Race Theory (CRT) and Education
-</h1>
 
-<h2>
-  Diversity in Education: How Has Schooling Changed Over the Years?
-</h2>
+<Scroller
+    top={0.0}
+    bottom={1}
+    threshold={0.5}
+    bind:count
+    bind:index
+    bind:offset
+    bind:progress
+  >
+    <div 
+      class="background" 
+      slot="background"
+      bind:clientWidth={scrollerWidth}
+      bind:clientHeight={scrollerHeight}
+      >
+    </div>
 
-<main id="chart-container">
-  <button class="replay-button" on:click={replay}>Replay</button>
-  {#if height > 0}
-    <svg id="chart-svg" viewBox="0 0 {width} {height + 50}"></svg>
-  {/if}
-</main>
+    <div class="foreground" slot="foreground">
+      <section>
+        <h1>
+          <!-- Understanding Education: How Has Schooling Changed Over the Years? -->
+          Critical Race Theory (CRT) and Education
+        </h1>
+        <h2>
+          Diversity in Education: How Has Schooling Changed Over the Years?
+        </h2>
+      </section>
+        
+      <section>
+        <p> Critical Race Theory (CRT): the theory that racial bias is inherent in many parts of society, including educational institutions </p>
+        <!-- on the basis of their having been primarily designed for and implemented by white people. -->
+      </section>
 
-<p> Critical Race Theory (CRT): the theory that racial bias is inherent in many parts of society, including educational institutions </p>
-<!-- on the basis of their having been primarily designed for and implemented by white people. -->
+      <section>
+        <main id="chart-container">
+          <button class="replay-button" on:click={replay}>Replay</button>
+          {#if height > 0}
+            <svg id="chart-svg" viewBox="0 0 {width} {height + 50}"></svg>
+          {/if}
+        </main>
+      </section>
 
-<main id="slope-chart-container">
-</main>
+      <section>
+        <main id="slope-chart-container">
+        </main>
+      </section>
 
+      <section>
+        <main id="stackedbar-chart-container">
+        </main>
+      </section>
+      
+      <section>This is the fifth section.
 
-<main id="stackedbar-chart-container">
-</main>
-
+      </section>
+      <section>This is the sixth section.
+        
+      </section>
+    </div>
+</Scroller>
 
 <style>
   /* Title style */
@@ -362,5 +401,30 @@
       font-family: "Times New Roman"; 
       text-align: justify; /* Left align the title */
   }
+  .background {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+  }
 
+  .foreground {
+    width: 100%;
+    margin: 0 auto;
+    height: auto;
+    position: relative;
+    outline: red solid 3px;
+  }
+
+  section {
+    width: 75%;
+    height: 80vh;
+    background-color: rgba(0, 0, 0, 0.2); /* 20% opaque */
+    /* color: white; */
+    outline: magenta solid 3px;
+    text-align: center;
+    /* max-width: 1000px; adjust at will */
+    color: black;
+    padding: 1em;
+    margin: 0 auto 2em auto;
+  }
 </style>

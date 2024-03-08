@@ -111,6 +111,7 @@
             .attr("height", function (d) { return y(d.y0) - y(d.y1); })
             .style("fill", function (d) { return color(d.name); });
 
+        
         // bar_enter.append("text")
         //     .text(function (d) { return d3.format(".2f")(d.percentage) + "%"; }) // Display the percentage
         //     .attr("y", function (d) { return y(d.y1) + (y(d.y0) - y(d.y1)) / 2; })
