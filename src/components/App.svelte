@@ -9,7 +9,6 @@
   let index = 0;
 
   let scrollerWidth, scrollerHeight;
-  let showBarChart = false; // only show bar chart when scrolled there
 
   let tempData = [];
   let harass_bully_data = [];
@@ -110,7 +109,7 @@
     const container = document.getElementById('slope-chart-container');
     if (container) {
       container.innerHTML = '';
-
+      console.log('where');
       container.appendChild(sc_harass_bully);
     }
   }
@@ -136,10 +135,8 @@
     index = Math.floor((scrollPosition + windowHeight / 2) / sectionHeight);
     
     // only show bar chart race once it gets to index 2
-    if (index >= 2) {
-      showBarChart = true;
-    } else {
-      showBarChart = false;
+    if (index == 2) {
+      replay();
     }
   }
 
@@ -164,7 +161,7 @@
 
 
       const container = document.getElementById('chart-container');
-      if (container && showBarChart) {
+      if (container) {
         container.innerHTML = ''; // Clear existing content
         
         // Append the replay button to the container
@@ -372,7 +369,7 @@
       <section>
         <main id="chart-container">
           <button class="replay-button" on:click={replay}>Replay</button>
-          {#if height > 0 && showBarChart}
+          {#if height > 0}
             <svg id="chart-svg" viewBox="0 0 {width} {height + 50}"></svg>
           {/if}
         </main>
