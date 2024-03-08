@@ -24,7 +24,7 @@
   let next = null;
   let color = null;
 
-  let duration = 250;
+  let duration = 150;
   let n = 7; // number of categories
   let k = 10;
   let barSize = 48;
@@ -132,10 +132,14 @@
     const sectionHeight = totalHeight / count;
 
     // Calculate the index based on scroll position and section height
-    index = Math.floor((scrollPosition + windowHeight / 2) / sectionHeight);
-    
-    // only show bar chart race once it gets to index 2
-    if (index == 2) {
+    let pos = Math.round(((scrollPosition + windowHeight / 2) / sectionHeight) * 100) / 100; // get 2 decimal places
+    let new_index = Math.floor(pos);
+    console.log(pos);
+
+    if (new_index !== index) {
+      index = new_index;
+    } else if (pos === 2.00){
+      // only show bar chart race once it gets to index 2
       replay();
     }
   }
