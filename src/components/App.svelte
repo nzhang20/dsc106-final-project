@@ -172,11 +172,18 @@
         replayButton.className = 'replay-button';
         replayButton.addEventListener('click', replay);
         container.appendChild(replayButton);
+        
+        replayButton.style.position = 'absolute';
+        replayButton.style.left = '47.5%';
+        replayButton.style.top = (100 * 2 + 72) + 'vh';
 
-        replayButton.style.position = 'relative';
+        // replayButton.style.transform = translateX('-50%');
+    // left: 50%;
+    // transform: translateX(-50%);
+    // bottom: 20px;
+    // z-index: 1;
         // replayButton.style.top = '-305px'; // Adjust as needed
         // replayButton.style.right = '-165px'; // Adjust as needed
-
 
         container.appendChild(svg.node());
       }
@@ -369,9 +376,6 @@
       <section>
         <main id="chart-container">
           <button class="replay-button" on:click={replay}>Replay</button>
-          {#if height > 0}
-            <svg id="chart-svg" viewBox="0 0 {width} {height + 50}"></svg>
-          {/if}
         </main>
       </section>
       <section>
@@ -453,4 +457,12 @@
     width: 100%; /* Adjust width as needed */
     height: 90vh; /* Adjust height as needed */
   }
+
+  .replay-button {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 20px;
+    z-index: 1;
+}
 </style>
