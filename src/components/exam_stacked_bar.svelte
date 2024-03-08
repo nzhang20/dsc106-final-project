@@ -29,8 +29,8 @@
         const dataset = ap_data;
 
         const margin = { top: 20, right: 20, bottom: 30, left: 40 };
-        const width = parseInt(d3.select('body').style('width'), 10) - margin.left - margin.right;
-        const height = parseInt(d3.select('body').style('height'), 10) - margin.top - margin.bottom;
+        const width = 600 - margin.left - margin.right;
+        const height = 400 - margin.top - margin.bottom;
 
         const x = d3.scaleBand()
             .range([0, width])
@@ -72,6 +72,8 @@
             });
         });
 
+        dataset.sort((a, b) => b.total - a.total);
+
         x.domain(dataset.map(function (d) { return d.Race; }));
         y.domain([0, d3.max(dataset, function (d) { return d.total; })]);
 
@@ -88,7 +90,7 @@
             .attr("y", 9)
             .attr("dy", ".71em")
             .style("text-anchor", "end")
-            .text("Satisfaction %");
+            .text("Number of Students");
 
         const bar = svg.selectAll(".Race")
             .data(dataset)
@@ -109,11 +111,11 @@
             .attr("height", function (d) { return y(d.y0) - y(d.y1); })
             .style("fill", function (d) { return color(d.name); });
 
-        bar_enter.append("text")
-            .text(function (d) { return d3.format(".2f")(d.percentage) + "%"; }) // Display the percentage
-            .attr("y", function (d) { return y(d.y1) + (y(d.y0) - y(d.y1)) / 2; })
-            .attr("x", x.bandwidth() / 3)
-            .style("fill", '#ffffff');
+        // bar_enter.append("text")
+        //     .text(function (d) { return d3.format(".2f")(d.percentage) + "%"; }) // Display the percentage
+        //     .attr("y", function (d) { return y(d.y1) + (y(d.y0) - y(d.y1)) / 2; })
+        //     .attr("x", x.bandwidth() / 3)
+        //     .style("fill", '#ffffff');
 
         // tooltip
         bar
@@ -155,8 +157,8 @@
             .style("text-anchor", "end")
             .text(function (d) { return d; });
 
-        svg.select(".legend")
-            .call(legend);
+        svg.select(".selectAll")
+        .call();
 
         return svg.node();
     }
