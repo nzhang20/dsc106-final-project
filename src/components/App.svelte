@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { slopeChart } from '../components/slope_chart.svelte';
+  import { slopeChart } from './slope_chart.svelte';
   import { stackedBarChart } from './exam_stacked_bar.svelte';
   import Scroller from "@sveltejs/svelte-scroller"
   import * as d3 from 'd3';
@@ -68,7 +68,7 @@
     const res5 = await fetch('final_ap_df.csv');
     const csv5 = await res5.text();
     ap_data = d3.csvParse(csv5, d3.autoType);
-    console.log(ap_data);
+    // console.log(ap_data);
 
     names = new Set(tempData.map(d => d.race));
     datevalues = Array.from(d3.rollup(tempData, ([d]) => d.enrollment, d => +d.year, d => d.race))
@@ -109,7 +109,6 @@
     const container = document.getElementById('slope-chart-container');
     if (container) {
       container.innerHTML = '';
-      console.log('where');
       container.appendChild(sc_harass_bully);
     }
   }
@@ -125,6 +124,7 @@
     }
   }
 
+
   function updateIndex() {
     const scrollPosition = window.scrollY;
     const windowHeight = window.innerHeight;
@@ -134,7 +134,7 @@
     // Calculate the index based on scroll position and section height
     let pos = Math.round(((scrollPosition + windowHeight / 2) / sectionHeight) * 100) / 100; // get 2 decimal places
     let new_index = Math.floor(pos);
-    console.log(pos);
+    // console.log(pos);
 
     if (new_index !== index) {
       index = new_index;
@@ -143,8 +143,6 @@
       replay();
     }
   }
-
-
 
   async function chart() {
       const svg = d3.create("svg")
@@ -364,12 +362,10 @@
           Diversity in Education: How Has Schooling Changed Over the Years?
         </h2>
       </section>
-        
       <section>
         <p> Critical Race Theory (CRT): the theory that racial bias is inherent in many parts of society, including educational institutions </p>
         <!-- on the basis of their having been primarily designed for and implemented by white people. -->
       </section>
-
       <section>
         <main id="chart-container">
           <button class="replay-button" on:click={replay}>Replay</button>
@@ -378,17 +374,14 @@
           {/if}
         </main>
       </section>
-
       <section>
         <main id="slope-chart-container">
         </main>
       </section>
-
       <section>
         <main id="stackedbar-chart-container">
         </main>
       </section>
-      
       <section>This is the fifth section.
 
       </section>
@@ -444,7 +437,7 @@
     justify-content: center; /* center horizontally */
     align-items: center; /* center vertically */
 
-    width: 75%;
+    width: 100%;
     height: 90vh;
     background-color: rgba(0, 0, 0, 0.2); /* 20% opaque */
     /* color: white; */
@@ -454,5 +447,10 @@
     color: black;
     padding: 1em;
     margin: 0 auto 2em auto;
+  }
+
+  #slope-chart-container {
+    width: 100%; /* Adjust width as needed */
+    height: 90vh; /* Adjust height as needed */
   }
 </style>
