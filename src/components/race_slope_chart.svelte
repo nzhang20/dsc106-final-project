@@ -47,7 +47,7 @@
 
     // Create SVG container
     const svg = d3.create("svg")
-        .attr("viewBox", [0, 0, width, height])
+        .attr("viewBox", [0, 0, width, height + 10])
         .attr("style", "max-width: 100%; height: auto; font: 8px sans-serif;");
 
     // Create x axis
@@ -231,7 +231,16 @@
             
             container.append(originalChart);
         }
-});
+    });
+
+    // Append text beneath the chart
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", height + 7) // Adjust the y-coordinate as needed
+        .attr("text-anchor", "middle")
+        .text("Click anywhere to return") 
+        .attr("fill", "gray")
+        .style("font-size", "10px"); 
 
 
     return svg.node();
