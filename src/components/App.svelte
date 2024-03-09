@@ -30,7 +30,7 @@
   let n = 7; // number of categories
   let k = 10;
   let barSize = 48;
-  let marginTop = 30;
+  let marginTop = 60;
   let marginRight = 6;
   let marginBottom = 6;
   let marginLeft = 0;
@@ -168,6 +168,14 @@
           .attr("width", width)
           .attr("height", height - 65)
           .attr("style", "max-width: 100%; height: auto;");
+        
+      svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", marginTop / 2)
+        .attr("text-anchor", "middle")
+        .style("font-size", "1.5em")
+        .text("Student Enrollment from 2000-2017");
+
 
       const updateBars = bars(svg);
       const updateAxis = axis(svg);
