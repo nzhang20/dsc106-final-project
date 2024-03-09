@@ -35,7 +35,7 @@
 
     // Create SVG container
     const svg = d3.create("svg")
-        .attr("viewBox", [0, 0, width, height])
+        .attr("viewBox", [0, 0, width, height + 20])
         .attr("style", "max-width: 100%; height: auto; font: 8px sans-serif;");
 
     // Create x axis
@@ -148,6 +148,15 @@
         .attr("dx", 15) // Adjust the horizontal position of the text
         .attr("fill", "currentColor")
         .style("font-size", "8px"); // You can adjust the font size as needed
+
+    // Append text beneath the chart
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", height + 7) // Adjust the y-coordinate as needed
+        .attr("text-anchor", "middle")
+        .text("Click line to expand") // Add your desired text here
+        .attr("fill", "gray")
+        .style("font-size", "10px"); // Adjust font size as needed
 
     return svg.node();
   }
