@@ -398,7 +398,7 @@ How has this affected education institutions since then?
       </section>
       <section>
         <main id="multiline-graph"></main>
-        <!-- <p>Whites have always been the predominant race enrolled in educational institutions, but more so in earlier years. The gap has slightly closed with more minorities enrolling almost every year. </p> -->
+        <p>Whites have always been the predominant race enrolled in educational institutions, but more so in earlier years. The gap has slightly closed with more minorities enrolling almost every year. </p>
       </section>
       <section>
         <main id="slope-chart-container">
