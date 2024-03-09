@@ -364,13 +364,27 @@
         </h2>
       </section>
       <section>
-        <p> Critical Race Theory (CRT): the theory that racial bias is inherent in many parts of society, including educational institutions </p>
+        <p id="quote_setup"> 
+          In the late 1970s to early 1980s the Critical Race Theory (CRT) was developed, encompassing:
+        </p>
+        <p id="quote">
+“a set of ideas holding that racial bias is inherent in many parts of western society, especially in its legal and social institutions, on the basis of their having been primarily designed for...white people” - Oxford Languages
+        </p>
+        <p>
+How has this affected education institutions since then?
+
+          <!-- Critical Race Theory (CRT): the theory that racial bias is inherent in many parts of society, 
+          including educational institutions  -->
+        </p>
         <!-- on the basis of their having been primarily designed for and implemented by white people. -->
       </section>
       <section>
         <main id="chart-container">
           <button class="replay-button" on:click={replay}>Replay</button>
         </main>
+      </section>
+      <section>
+        <p>Whites have always been the predominant race enrolled in educational institutions, but more so in earlier years. The gap has slightly closed with more minorities enrolling almost every year. </p>
       </section>
       <section>
         <main id="slope-chart-container">
@@ -389,23 +403,23 @@
   /* Title style */
   h1 {
       font-size: 2.5rem;
-      margin-left: 250px;
-      margin-right: 250px;
+      margin-left: 200px;
+      margin-right: 200px;
       color: #000; 
       font-family: "Times New Roman"; 
-      text-align: left; /* Left align the title */
+      /* text-align: left; Left align the title */
   }
   h2 {
       font-size: 1.25rem;
       margin-top: -20px;
-      margin-left: 250px;
-      margin-right: 250px;
+      margin-left: 200px;
+      margin-right: 200px;
       color: #000; 
       font-family: "Times New Roman"; 
-      text-align: left; /* Left align the title */
+      /* text-align: left; Left align the title */
   }
   p {
-      font-size: 1rem;
+      font-size: 1.25em;
       margin-top: 50px;
       margin-bottom: 50px;
       margin-left: 250px;
@@ -414,6 +428,29 @@
       font-family: "Times New Roman"; 
       text-align: justify; /* Left align the title */
   }
+
+  #quote_setup {
+      font-size: 1.25em;
+      margin-top: 50px;
+      margin-bottom: 0px;
+      margin-left: 250px;
+      margin-right: 250px;
+      color: #000; 
+      font-family: "Times New Roman"; 
+      text-align: justify; /* Left align the title */
+  }
+
+  #quote {
+    font-style: italic; /* Make the text italic */
+    color: #555; /* Change the text color */
+    font-size: 1.2em; /* Adjust the font size */
+    margin-left: 200px; /* Adjust the margin */
+    margin-right: 200px;
+    padding: 10px; /* Add padding */
+    background-color: #f9f9f9; /* Add a background color */
+    border-left: 5px solid #ccc; /* Add a left border */
+  }
+
   .background {
     width: 100%;
     height: 100vh;
