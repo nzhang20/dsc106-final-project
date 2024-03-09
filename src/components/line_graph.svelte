@@ -11,9 +11,9 @@
             .attr("viewBox", [0, 0, width + margin.left + margin.right, height + margin.top + margin.bottom])
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom);
-        // const svg = d3.create("svg")
-            // .attr("viewBox", [0, 0, width, height])
-            // .attr("style", "max-width: 100%; height: auto; font: 8px sans-serif;");
+
+        const chartGroup = svg.append('g')
+            .attr('class', 'chart-group');
 
         const xScale = d3.scaleTime()
             .domain(d3.extent(data, d => new Date(d.year)))
@@ -30,20 +30,20 @@
         const xAxis = d3.axisBottom(xScale);
         const yAxis = d3.axisLeft(yScale);
 
-        svg.append("g")
+        chartGroup.append("g")
             .attr("class", "x-axis")
             .attr("transform", `translate(0, ${height - margin.bottom})`)
             .call(xAxis);
 
-        svg.append("g")
+        chartGroup.append("g")
             .attr("class", "y-axis")
             .attr("transform", `translate(${margin.left}, 0)`)
             .call(yAxis);
 
         const races = [...new Set(data.map(d => d.race))];
-        races.forEach(race => {
+        races.forEach((race, index) => {
             const filteredData = data.filter(d => d.race === race);
-            svg.append('path')
+            chartGroup.append('path')
                 .datum(filteredData)
                 .attr('class', 'line')
                 .attr('d', line)
@@ -51,8 +51,32 @@
                 .style('fill', 'none');
         });
 
-        // const container = document.createElement('div');
-        // container.appendChild(svg.node());
+        // Create legend group
+        const legendGroup = svg.append('g')
+            .attr('class', 'legend-group')
+            .attr('transform', `translate(${width - 100}, ${margin.top})`);
+
+        // Add legend items
+        races.forEach((race, index) => {
+            legendGroup.append('text')
+                .attr('x', 0)
+                .attr('y', 10 * index)
+                .style('fill', colors(race))
+                .text(race)
+                .style('font-size', '9px');
+        });
+
+        // Add a box around the legend
+        const legendBox = legendGroup.node().getBBox();
+        legendGroup.insert('rect', ':first-child')
+            .attr('x', legendBox.x - 5)
+            .attr('y', legendBox.y - 10)
+            .attr('width', 160)
+            .attr('height', 75)
+            .attr('fill', 'white')
+            .style('opacity', 0.75)
+            .attr('stroke', 'black')
+            .attr('stroke-width', 1);
 
         return svg.node();
     }
