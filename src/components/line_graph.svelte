@@ -1,10 +1,10 @@
 <script context="module">
     import * as d3 from 'd3';
 
-    export function multiLineGraph(data) {
+    export function multiLineGraph(data, lg_height) {
         const width = 600;
-        const height = 500;
-        const margin = ({ top: 30, right: 30, bottom: 30, left: 60 });
+        const height = lg_height;
+        const margin = ({ top: 30, right: 0, bottom: 30, left: 60 });
         const colors = d3.scaleOrdinal(d3.schemeCategory10);
 
         const svg = d3.create("svg")
@@ -25,8 +25,7 @@
 
         const line = d3.line()
             .x(d => xScale(new Date(d.year)))
-            .y(d => yScale(d.enrollment))
-            .curve(d3.curveNatural);
+            .y(d => yScale(d.enrollment));
 
         const xAxis = d3.axisBottom(xScale);
         const yAxis = d3.axisLeft(yScale);
@@ -52,9 +51,9 @@
                 .style('fill', 'none');
         });
 
-        const container = document.createElement('div');
-        container.appendChild(svg.node());
+        // const container = document.createElement('div');
+        // container.appendChild(svg.node());
 
-        return container;
+        return svg.node();
     }
 </script>

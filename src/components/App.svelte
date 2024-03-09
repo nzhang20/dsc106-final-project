@@ -106,12 +106,14 @@
     chart();
     // console.log(tempData);
     
-    const line_graph = multiLineGraph(tempData); // Call your multiLineGraph function
-    console.log(line_graph);
+    let lg_height = (document.body.clientHeight / count) / 2;
+    const line_graph = multiLineGraph(tempData, lg_height); // Call your multiLineGraph function
+    // console.log(line_graph);
 
     const container = document.getElementById('multiline-graph');
     if (container) {
       container.innerHTML = ''; // Clear existing content
+      container.style.textAlign = "center";
       container.appendChild(line_graph); // Append the line graph to the container
     }
   }
@@ -398,7 +400,7 @@ How has this affected education institutions since then?
       </section>
       <section>
         <main id="multiline-graph"></main>
-        <p>Whites have always been the predominant race enrolled in educational institutions, but more so in earlier years. The gap has slightly closed with more minorities enrolling almost every year. </p>
+        <p id="multiline-graph-description">Whites have always been the predominant race enrolled in educational institutions, but more so in earlier years. This gap has been closing with more minorities enrolling every year. </p>
       </section>
       <section>
         <main id="slope-chart-container">
@@ -446,7 +448,6 @@ How has this affected education institutions since then?
   #quote_setup {
       font-size: 1.25em;
       margin-top: 50px;
-      margin-bottom: 0px;
       margin-left: 250px;
       margin-right: 250px;
       color: #000; 
@@ -463,6 +464,16 @@ How has this affected education institutions since then?
     padding: 10px; /* Add padding */
     background-color: #f9f9f9; /* Add a background color */
     border-left: 5px solid #ccc; /* Add a left border */
+  }
+
+  #multiline-graph-description {
+    font-size: 1.25em;
+      margin-left: 250px;
+      margin-right: 250px;
+      margin-top: -10px;
+      color: #000; 
+      font-family: "Times New Roman"; 
+      text-align: justify;
   }
 
   .background {
