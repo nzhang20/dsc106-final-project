@@ -9,6 +9,7 @@
   let index = 0;
 
   let scrollerWidth, scrollerHeight;
+  let num_sections = 5; // # of sections in scrollyteller
 
   let tempData = [];
   let harass_bully_data = [];
@@ -104,11 +105,14 @@
   }
 
   $: if ((harass_bully_data.length > 0) && (harass_data.length > 0) && (discipline_data.length > 0)) {
-    const sc_harass_bully = slopeChart(harass_bully_data, harass_data, discipline_data);
+    let sc_height = document.body.clientHeight / count;
+    // console.log(sc_height);
+    const sc_harass_bully = slopeChart(harass_bully_data, harass_data, discipline_data, sc_height);
 
     const container = document.getElementById('slope-chart-container');
     if (container) {
       container.innerHTML = '';
+      
       container.appendChild(sc_harass_bully);
     }
   }
@@ -176,14 +180,6 @@
         replayButton.style.position = 'absolute';
         replayButton.style.left = '47.5%';
         replayButton.style.top = (100 * 2 + 72) + 'vh';
-
-        // replayButton.style.transform = translateX('-50%');
-    // left: 50%;
-    // transform: translateX(-50%);
-    // bottom: 20px;
-    // z-index: 1;
-        // replayButton.style.top = '-305px'; // Adjust as needed
-        // replayButton.style.right = '-165px'; // Adjust as needed
 
         container.appendChild(svg.node());
       }

@@ -3,10 +3,13 @@
   import { raceSlopeChart } from './race_slope_chart.svelte';
 
   // Function for slope chart
-  export function slopeChart(data, harassData, disciplineData) {
+  export function slopeChart(data, harassData, disciplineData, sectionHeight) {
     // Chart dimensions
     const width = 1000;
-    const height = 250;
+    let height = 450;
+    if (sectionHeight < 450){
+      height = sectionHeight;
+    }
     const marginTop = 40;
     const marginRight = 50;
     const marginBottom = 10;
@@ -72,10 +75,10 @@
             container.innerHTML = ''; // Clear existing content
             
             if (type === "# Harassed") {
-              const sc_harass = raceSlopeChart(data, harassData, disciplineData, 'harass'); // Generate race slope chart with harassData
+              const sc_harass = raceSlopeChart(data, harassData, disciplineData, 'harass', sectionHeight); // Generate race slope chart with harassData
               container.appendChild(sc_harass); // Append the race slope chart to the container
             } else if (type === "# Disciplined") {
-              const sc_discipline = raceSlopeChart(data, harassData, disciplineData, 'discipline'); // Generate race slope chart with disciplineData
+              const sc_discipline = raceSlopeChart(data, harassData, disciplineData, 'discipline', sectionHeight); // Generate race slope chart with disciplineData
               container.appendChild(sc_discipline); // Append the race slope chart to the container
             }
         }

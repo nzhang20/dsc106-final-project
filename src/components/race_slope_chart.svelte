@@ -3,7 +3,7 @@
   import { slopeChart } from '../components/slope_chart.svelte';
 
   // Function for slope chart
-  export function raceSlopeChart(originalData, harassData, disciplineData, dataType) {
+  export function raceSlopeChart(originalData, harassData, disciplineData, dataType, sectionHeight) {
     let data = [];
     let originalChart = slopeChart(originalData, harassData, disciplineData);
     let chartTitle = ''
@@ -18,7 +18,10 @@
 
     // Chart dimensions
     const width = 1000;
-    const height = 450;
+    let height = 450;
+    if (sectionHeight < height) {
+      height = sectionHeight;
+    }
     const marginTop = 40;
     const marginRight = 50;
     const marginBottom = 10;
