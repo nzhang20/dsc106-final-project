@@ -2,9 +2,9 @@
     import * as d3 from 'd3';
 
     export function multiLineGraph(data) {
-        const width = 450;
+        const width = 600;
         const height = 500;
-        const margin = ({ top: 20, right: 20, bottom: 30, left: 40 });
+        const margin = ({ top: 30, right: 30, bottom: 30, left: 60 });
         const colors = d3.scaleOrdinal(d3.schemeCategory10);
 
         const svg = d3.create("svg")
