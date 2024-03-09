@@ -8,8 +8,9 @@
     const width = 1000;
     let height = 450;
     if (sectionHeight < 450){
-      height = sectionHeight;
+      height = sectionHeight - 50;
     }
+    height -= 10
     const marginTop = 40;
     const marginRight = 50;
     const marginBottom = 10;
@@ -35,7 +36,7 @@
 
     // Create SVG container
     const svg = d3.create("svg")
-        .attr("viewBox", [0, 0, width, height + 20])
+        .attr("viewBox", [0, 0, width, height])
         .attr("style", "max-width: 100%; height: auto; font: 8px sans-serif;");
 
     // Create x axis
@@ -152,7 +153,7 @@
     // Append text beneath the chart
     svg.append("text")
         .attr("x", width / 2)
-        .attr("y", height + 7) // Adjust the y-coordinate as needed
+        .attr("y", height - 2) // Adjust the y-coordinate as needed
         .attr("text-anchor", "middle")
         .text("Click line to expand") 
         .attr("fill", "gray")

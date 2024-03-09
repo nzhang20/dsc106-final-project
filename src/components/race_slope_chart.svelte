@@ -20,8 +20,9 @@
     const width = 1000;
     let height = 450;
     if (sectionHeight < height) {
-      height = sectionHeight;
+      height = sectionHeight - 50;
     }
+    height -= 10
     const marginTop = 40;
     const marginRight = 50;
     const marginBottom = 10;
@@ -140,7 +141,7 @@
             .attr("x", d => x(d[0][d[1].length - 1].year)) 
             .attr("y", d => {
                 const yPosition = Math.round(y(d[1][0].count) / 10) * 10;
-                console.log(d[0], yPosition);
+                // console.log(d[0], yPosition);
                 if (startYPositions[yPosition] !== undefined) {
                     const lastY = startYPositions[yPosition];
                     const lastHeight = parseFloat(svg.select(`text[y="${lastY}"]`).node().getBBox().height);
@@ -149,8 +150,8 @@
                         newY = newY + 10
                     }
                     startYPositions[newY] = newY;
-                    console.log('moved')
-                    console.log(d[0], newY);
+                    // console.log('moved')
+                    // console.log(d[0], newY);
                     return newY - 3;
                 } else {
                     startYPositions[yPosition] = yPosition;
