@@ -106,7 +106,6 @@
 
   $: if ((harass_bully_data.length > 0) && (harass_data.length > 0) && (discipline_data.length > 0)) {
     let sc_height = document.body.clientHeight / count;
-    // console.log(sc_height);
     const sc_harass_bully = slopeChart(harass_bully_data, harass_data, discipline_data, sc_height);
 
     const container = document.getElementById('slope-chart-container');
@@ -119,13 +118,12 @@
 
   $: if (ap_data.length > 0) {
     const ap_stacked_bar = stackedBarChart(ap_data);
-    // console.log('hi');
-    const container = document.getElementById('stackedbar-chart-container');
-    if (container) {
-      container.innerHTML = '';
+    // const container = document.getElementById('stackedbar-chart-container');
+    // if (container) {
+    //   container.innerHTML = '';
 
-      container.appendChild(ap_stacked_bar);
-    }
+    //   container.appendChild(ap_stacked_bar);
+    // }
   }
 
 
@@ -379,8 +377,7 @@
         </main>
       </section>
       <section>
-        <main id="stackedbar-chart-container">
-        </main>
+        <main id="stackedbar-chart-container"></main>
       </section>
       <section>This is the fifth section.
 
@@ -452,6 +449,11 @@
   #slope-chart-container {
     width: 100%; /* Adjust width as needed */
     height: 90vh; /* Adjust height as needed */
+  }
+
+  #stackedbar-chart-container {
+    width: 100%;
+    height: 90vh; /* or any other height */
   }
 
   .replay-button {

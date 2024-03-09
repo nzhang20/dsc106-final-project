@@ -49,11 +49,19 @@
         const yAxis = d3.axisLeft(y)
             .tickFormat(d3.format(".2s"));
 
-        const svg = d3.select("body").append("svg")
+        const svgContainer = d3.select("#stackedbar-chart-container");
+
+        const svg = svgContainer.append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        // const svg = d3.select("body").append("svg")
+        //     .attr("width", width + margin.left + margin.right)
+        //     .attr("height", height + margin.top + margin.bottom)
+        //     .append("g")
+        //     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         const divTooltip = d3.select("body").append("div").attr("class", "toolTip");
 
