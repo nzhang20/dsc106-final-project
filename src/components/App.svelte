@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { slopeChart } from './slope_chart.svelte';
   import { stackedBarChart } from './exam_stacked_bar.svelte';
+  import { multiLineGraph } from './line_graph.svelte';
   import Scroller from "@sveltejs/svelte-scroller"
   import * as d3 from 'd3';
 
@@ -49,6 +50,7 @@
     const res = await fetch('final_enrollment_data.csv'); 
     const csv = await res.text();
     tempData = d3.csvParse(csv, d3.autoType);
+    console.log(tempData);
 
     // Data for slope_chart
     const res2 = await fetch('final_harass_bully.csv'); 
@@ -102,6 +104,16 @@
 
   $: if ((keyframes !== null) && (prev !== null) && (next !== null) && (color !== null)) {
     chart();
+    // console.log(tempData);
+    
+    const line_graph = multiLineGraph(tempData); // Call your multiLineGraph function
+    console.log(line_graph);
+
+    const container = document.getElementById('multiline-graph');
+    if (container) {
+      container.innerHTML = ''; // Clear existing content
+      container.appendChild(line_graph); // Append the line graph to the container
+    }
   }
 
   $: if ((harass_bully_data.length > 0) && (harass_data.length > 0) && (discipline_data.length > 0)) {
@@ -125,6 +137,7 @@
     //   container.appendChild(ap_stacked_bar);
     // }
   }
+
 
 
   function updateIndex() {
@@ -384,7 +397,8 @@ How has this affected education institutions since then?
         </main>
       </section>
       <section>
-        <p>Whites have always been the predominant race enrolled in educational institutions, but more so in earlier years. The gap has slightly closed with more minorities enrolling almost every year. </p>
+        <main id="multiline-graph"></main>
+        <!-- <p>Whites have always been the predominant race enrolled in educational institutions, but more so in earlier years. The gap has slightly closed with more minorities enrolling almost every year. </p> -->
       </section>
       <section>
         <main id="slope-chart-container">
