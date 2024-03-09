@@ -154,9 +154,9 @@
         .attr("x", width / 2)
         .attr("y", height + 7) // Adjust the y-coordinate as needed
         .attr("text-anchor", "middle")
-        .text("Click line to expand") // Add your desired text here
+        .text("Click line to expand") 
         .attr("fill", "gray")
-        .style("font-size", "10px"); // Adjust font size as needed
+        .style("font-size", "10px"); 
 
     return svg.node();
   }
