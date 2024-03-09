@@ -436,7 +436,7 @@
 
     width: 100%;
     height: 90vh;
-    background-color: rgba(0, 0, 0, 0.2); /* 20% opaque */
+    /* background-color: rgba(0, 0, 0, 0.2); 20% opaque */
     /* color: white; */
     outline: magenta solid 3px;
     text-align: center;
@@ -448,6 +448,7 @@
 
   #slope-chart-container {
     width: 100%; /* Adjust width as needed */
+    margin-top: 5vh;
     height: 90vh; /* Adjust height as needed */
   }
 
