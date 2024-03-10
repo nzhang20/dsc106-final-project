@@ -424,6 +424,13 @@ How has this affected education institutions since then?
       <section>
         <main id="stackedbar-chart-container"></main>
       </section>
+      <!-- temp section for video -->
+      <section>
+        <h1>
+          Takeaways 
+        </h1>
+      </section>
+      
     </div>
 </Scroller>
 
