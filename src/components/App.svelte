@@ -412,11 +412,11 @@ How has this affected education institutions since then?
         <main id="multiline-graph"></main>
         <p id="multiline-graph-description">Whites have always been the predominant race enrolled in educational institutions, but more so in earlier years. This gap has been closing with more minorities enrolling every year. </p>
       </section>
-      <section>
+      <!-- <section>
         <p> In 2000: 58% Whites vs 41% Minorities</p>
         <p> ↓ </p>
         <p> In 2021: 47% White vs 52% Minorities</p>
-      </section>
+      </section> -->
       <section>
         <main id="slope-chart-container">
         </main>
