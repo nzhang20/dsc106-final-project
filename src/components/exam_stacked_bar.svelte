@@ -28,9 +28,9 @@
 
         const dataset = ap_data;
 
-        const margin = { top: 20, right: 20, bottom: 30, left: 40 };
-        const width = 600 - margin.left - margin.right;
-        const height = 400 - margin.top - margin.bottom;
+        const margin = { top: 100, right: 20, bottom: 80, left: 60 };
+        const width = 800 - margin.left - margin.right; 
+        const height = 700 - margin.top - margin.bottom;
 
         const x = d3.scaleBand()
             .range([0, width])
@@ -57,13 +57,23 @@
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        // const svg = d3.select("body").append("svg")
-        //     .attr("width", width + margin.left + margin.right)
-        //     .attr("height", height + margin.top + margin.bottom)
-        //     .append("g")
-        //     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        // Add y-axis title
+        svg.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - margin.left)
+            .attr("x", 0 - height / 2)
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("Number of Students");
 
-        const divTooltip = d3.select("body").append("div").attr("class", "toolTip");
+        // Add x-axis title
+        svg.append("text")
+            .attr("y", height + margin.bottom / 1.5 - 30)
+            .attr("x", width / 2)
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("Race");
+
 
         color.domain(Object.keys(dataset[0]).filter(function (key) { return key !== "Race"; }));
 
@@ -74,7 +84,7 @@
                 const percentage = (d[name] / d.total) * 100; // Calculate percentage for each segment
                 return {
                     name: name,
-                    percentage: (d[name] / d.total) * 100, // Calculate percentage for each segment
+                    percentage: percentage, 
                     y0: y0,
                     y1: y0 += +d[name]
                 };
@@ -93,13 +103,7 @@
 
         svg.append("g")
             .attr("class", "y axis")
-            .call(yAxis)
-            .append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 9)
-            .attr("dy", ".71em")
-            .style("text-anchor", "end")
-            .text("Number of Students");
+            .call(yAxis);
 
         const bar = svg.selectAll(".Race")
             .data(dataset)
@@ -114,11 +118,11 @@
             .data(function (d) { return d.values; })
             .enter();
 
-        bar_enter.append("rect")
-            .attr("width", x.bandwidth())
-            .attr("y", function (d) { return y(d.y1); })
-            .attr("height", function (d) { return y(d.y0) - y(d.y1); })
-            .style("fill", function (d) { return color(d.name); });
+        // bar_enter.append("rect")
+        //     .attr("width", x.bandwidth())
+        //     .attr("y", function (d) { return y(d.y1); })
+        //     .attr("height", function (d) { return y(d.y0) - y(d.y1); })
+        //     .style("fill", function (d) { return color(d.name); });
 
                 
         // bar_enter.append("text")
@@ -128,23 +132,34 @@
         //     .style("fill", '#ffffff');
 
         // tooltip
-        bar
-            .on("mousemove", function (event, d) {
-                divTooltip.style("left", (event.pageX + 10) + "px");
-                divTooltip.style("top", (event.pageY - 25) + "px");
-                divTooltip.style("display", "inline-block");
-                const elements = document.querySelectorAll(':hover');
-                let l = elements.length;
-                l = l - 1;
-                const element = elements[l].__data__;
-                const value = element.y1 - element.y0;
-                divTooltip.html((d.Race) + "<br>" + element.name + "<br>" + value + "<br>" + d3.format(".2f")(element.percentage) + "%");
+        const tooltip = d3.select("#stackedbar-chart-container").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+
+        bar_enter.append("rect")
+            .attr("width", x.bandwidth())
+            .attr("y", function (d) { return y(d.y1); })
+            .attr("height", function (d) { return y(d.y0) - y(d.y1); })
+            .style("fill", function (d) { return color(d.name); })
+            // Show tooltip on mouseover
+            .on("mouseover", function (event, d) {
+                tooltip.transition()
+                    .duration(200)
+                    .style("opacity", .9);
+                const percentage = d3.format(".2f")(d.percentage) + "%";
+                const race = d3.select(this.parentNode).datum().Race;
+                tooltip.html("Race: " + race + "<br/>" + "Segment: " + d.name + "<br/>" + "Value: " + (d.y1 - d.y0) + "<br/>" + "Percentage: " + percentage)
+                    .style("left", (event.pageX) + "px")
+                    .style("top", (event.pageY + 10) + "px");
+            })
+            // Hide tooltip on mouseout
+            .on("mouseout", function (d) {
+                tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
             });
 
-        bar
-            .on("mouseout", function () {
-                divTooltip.style("display", "none");
-            });
+
 
 
         // legend
@@ -167,8 +182,8 @@
             .style("text-anchor", "end")
             .text(function (d) { return d; });
 
-        svg.select(".selectAll")
-        .call();
+        // svg.select(".selectAll")
+        // .call();
 
         return svg.node();
     }
