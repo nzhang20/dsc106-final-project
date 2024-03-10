@@ -499,7 +499,7 @@ How has this affected education institutions since then?
     margin: 0 auto;
     height: auto;
     position: relative;
-    outline: red solid 3px;
+    /* outline: red solid 3px; */
   }
 
   section {
@@ -512,7 +512,7 @@ How has this affected education institutions since then?
     height: 90vh;
     /* background-color: rgba(0, 0, 0, 0.2); 20% opaque */
     /* color: white; */
-    outline: magenta solid 3px;
+    /* outline: magenta solid 3px; */
     text-align: center;
     /* max-width: 1000px; adjust at will */
     color: black;
