@@ -132,7 +132,8 @@
   }
 
   $: if (ap_data.length > 0) {
-    const ap_stacked_bar = stackedBarChart(ap_data);
+    let ap_height = (document.body.clientHeight / count) / 2;
+    const ap_stacked_bar = stackedBarChart(ap_data, ap_height);
     // const container = document.getElementById('stackedbar-chart-container');
     // if (container) {
     //   container.innerHTML = '';
@@ -389,7 +390,7 @@
       </section>
       <section>
         <p id="quote_setup"> 
-          In the late 1970s to early 1980s the Critical Race Theory (CRT) was developed, encompassing:
+          In the late 1970s to early 1980s, the Critical Race Theory (CRT) was developed, encompassing:
         </p>
         <p id="quote">
 “a set of ideas holding that racial bias is inherent in many parts of western society, especially in its legal and social institutions, on the basis of their having been primarily designed for...white people” - Oxford Languages

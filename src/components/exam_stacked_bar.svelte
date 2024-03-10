@@ -1,7 +1,7 @@
 <script context="module">
     import * as d3 from 'd3';
 
-    export function stackedBarChart(ap_data) {
+    export function stackedBarChart(ap_data, apHeight) {
         function wrap(text, width) {
             text.each(function () {
                 var text = d3.select(this),
@@ -30,7 +30,7 @@
 
         const margin = { top: 100, right: 20, bottom: 80, left: 60 };
         const width = 800 - margin.left - margin.right; 
-        const height = 700 - margin.top - margin.bottom;
+        const height = apHeight; // 700 - margin.top - margin.bottom;
 
         const x = d3.scaleBand()
             .range([0, width])
