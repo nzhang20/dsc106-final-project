@@ -415,7 +415,7 @@ How has this affected education institutions since then?
       <section>
         <p> In 2000: 58% Whites vs 41% Minorities</p>
         <p> ↓ </p>
-        <p> In 2017: 47% White vs 52% Minorities</p>
+        <p> In 2021: 47% White vs 52% Minorities</p>
       </section>
       <section>
         <main id="slope-chart-container">
