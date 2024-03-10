@@ -175,7 +175,7 @@
         .attr("y", marginTop / 2)
         .attr("text-anchor", "middle")
         .style("font-size", "1.5em")
-        .text("Student Enrollment from 2000-2017");
+        .text("Student Enrollment from 2000-2021");
 
 
       const updateBars = bars(svg);
