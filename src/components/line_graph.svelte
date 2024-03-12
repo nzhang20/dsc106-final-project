@@ -58,13 +58,44 @@
 
         // Add legend items
         races.forEach((race, index) => {
-            legendGroup.append('text')
-                .attr('x', 0)
-                .attr('y', 10 * index)
-                .style('fill', colors(race))
-                .text(race)
-                .style('font-size', '9px');
+            // Split "Native Hawaiian or other Pacific Islander" into two rows
+            if (race === "Native Hawaiian or other Pacific Islander") {
+                const raceText = "Native Hawaiian or other Pacific";
+                const islanderText = "Islander";
+                
+                // Add text for the first row
+                legendGroup.append('text')
+                    .attr('x', -2)
+                    .attr('y', 10 * index)
+                    .style('fill', colors(race))
+                    .text(raceText)
+                    .style('font-size', '11px');
+                
+                // Add text for the second row
+                legendGroup.append('text')
+                    .attr('x', 8)
+                    .attr('y', 10 * index + 10) // Adjust y position for the second row
+                    .style('fill', colors(race))
+                    .text(islanderText)
+                    .style('font-size', '11px');
+            } else if (race === "Two or more races") {
+                legendGroup.append('text')
+                    .attr('x', -2)
+                    .attr('y', 10 * index + 10)
+                    .style('fill', colors(race))
+                    .text(race)
+                    .style('font-size', '11px');
+            }else {
+                // For other races, add a single text element
+                legendGroup.append('text')
+                    .attr('x', -2)
+                    .attr('y', 10 * index)
+                    .style('fill', colors(race))
+                    .text(race)
+                    .style('font-size', '11px');
+            }
         });
+
 
         // Add a box around the legend
         const legendBox = legendGroup.node().getBBox();
@@ -72,7 +103,7 @@
             .attr('x', legendBox.x - 5)
             .attr('y', legendBox.y - 10)
             .attr('width', 160)
-            .attr('height', 75)
+            .attr('height', 85)
             .attr('fill', 'white')
             .style('opacity', 0.75)
             .attr('stroke', 'black')
