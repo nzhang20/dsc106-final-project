@@ -140,7 +140,16 @@
 
     //   container.appendChild(ap_stacked_bar);
     // }
+
+    const container = document.getElementById("link-container");
+    const link = document.createElement("a");
+    link.href = "https://www.youtube.com/watch?v=sllqLQLRlJo"
+    link.textContent = 'Demo Video';
+  
+    container.appendChild(link);
   }
+
+  
 
 
 
@@ -387,6 +396,7 @@
         <h2>
           Diversity in Education: How Has Schooling Changed Over the Years?
         </h2>
+        <main id="link-container"></main>
       </section>
       <section>
         <p id="quote_setup"> 
@@ -430,6 +440,7 @@ How has this affected education institutions since then?
           Takeaways 
         </h1>
       </section>
+      
       
     </div>
 </Scroller>
