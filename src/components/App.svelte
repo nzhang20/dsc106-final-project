@@ -211,7 +211,7 @@
         
         replayButton.style.position = 'absolute';
         replayButton.style.left = '47.5%';
-        replayButton.style.top = (100 * 2 + 72) + 'vh';
+        replayButton.style.top = (100 * 3 + 72) + 'vh'; // * x = section
 
         container.appendChild(svg.node());
       }
@@ -388,6 +388,9 @@
     </div>
 
     <div class="foreground" slot="foreground">
+      <section> <!-- hook -->
+        <p id="hook">Imagine a world where every student, regardless of race, has equal opportunities and access to education. But the reality is far from this ideal...</p>
+      </section>
       <section>
         <h1>
           <!-- Understanding Education: How Has Schooling Changed Over the Years? -->
@@ -396,6 +399,7 @@
         <h2>
           Diversity in Education: How Has Schooling Changed Over the Years?
         </h2>
+        <p id="authors"> By: Charisse Hao and Nicole Zhang</p>
         <main id="link-container"></main>
       </section>
       <section>
@@ -473,6 +477,26 @@ How has this affected education institutions since then?
       color: #000; 
       font-family: "Times New Roman"; 
       text-align: justify; /* Left align the title */
+  }
+
+  #hook {
+      font-size: 1.75em;
+      margin-left: 300px;
+      margin-right: 300px;
+      color: #000; 
+      font-family: "Times New Roman"; 
+      text-align: center;
+  }
+
+  #authors {
+      font-size: 1.1em;
+      margin-top: 0px;
+      margin-bottom: 7.5px;
+      margin-left: 250px;
+      margin-right: 250px;
+      color: #000; 
+      font-family: "Times New Roman"; 
+      text-align: center;
   }
 
   #quote_setup {
