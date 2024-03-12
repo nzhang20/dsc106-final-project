@@ -166,7 +166,7 @@
 
     if (new_index !== index) {
       index = new_index;
-    } else if (pos === 2.00){
+    } else if (pos === 3.00){
       // only show bar chart race once it gets to index 2
       replay();
     }
