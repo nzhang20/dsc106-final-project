@@ -433,12 +433,46 @@ How has this affected education institutions since then?
       </section>
       <section>
         <main id="multiline-graph"></main>
-        <p id="multiline-graph-description">Whites have always been the predominant race enrolled in educational institutions, but more so in earlier years. This gap has been closing with more minorities enrolling every year. </p>
+        <p id="multiline-graph-description">
+          While white enrollment has historically been predominant, the gap between white and minority enrollment has gradually narrowed over time.
+        </p>
       </section>
       <section>
-        <p> In 2000: 58% Whites vs 41% Minorities</p>
+        <div class="column-container">
+          <div class="column">
+            <!-- Content for the first column -->
+            <h3>Enrollment in 2000:</h3>
+            <p>
+              58% White<br>
+              42% Minorities<br>
+              &nbsp;&nbsp;&nbsp;19% Hispanic<br>
+              &nbsp;&nbsp;&nbsp;18% Black<br>
+              &nbsp;&nbsp;&nbsp;4% Asian<br>
+              &nbsp;&nbsp;&nbsp;1% American Indian or Alaska Native<br>
+            </p>
+          </div>
+          <div class="column">
+            <!-- Content for the second column -->
+            <p id="arrow"> ➡ </p>
+          </div>
+          <div class="column">
+            <!-- Content for the third column -->
+            <h3>In 2017:</h3>
+            <p>
+              47% White<br>
+              53% Minorities<br>
+              &nbsp;&nbsp;&nbsp;27% Hispanic<br>
+              &nbsp;&nbsp;&nbsp;15% Black<br>
+              &nbsp;&nbsp;&nbsp;5% Asian<br>
+              &nbsp;&nbsp;&nbsp;4% Two or more races<br>
+              &nbsp;&nbsp;&nbsp;1% American Indian or Alaska Native<br>
+              &nbsp;&nbsp;&nbsp;0.4% Native Hawaiian or other Pacific Islander<br>
+            </p>
+          </div>
+        </div>
+        <!-- <p>  58% Whites vs 41% Minorities</p>
         <p> ↓ </p>
-        <p> In 2021: 47% White vs 52% Minorities</p>
+        <p> In 2021: 47% White vs 52% Minorities</p> -->
       </section>
       <section>
         <main id="slope-chart-container">
@@ -536,7 +570,7 @@ How has this affected education institutions since then?
       margin-top: -10px;
       color: #000; 
       font-family: "Times New Roman"; 
-      text-align: justify;
+      text-align: center;
   }
 
   .background {
@@ -559,16 +593,17 @@ How has this affected education institutions since then?
     justify-content: center; /* center horizontally */
     align-items: center; /* center vertically */
 
-    width: 100%;
+    width: 95%;
     height: 90vh;
     /* background-color: rgba(0, 0, 0, 0.2); 20% opaque */
     /* color: white; */
-    outline: magenta solid 3px;
+    /* outline: magenta solid 3px; */
     text-align: center;
     /* max-width: 1000px; adjust at will */
     color: black;
     padding: 1em;
     margin: 0 auto 2em auto;
+    /* overflow-x: hidden; Hide horizontal scrollbar */
   }
 
   #slope-chart-container {
@@ -588,5 +623,46 @@ How has this affected education institutions since then?
     transform: translateX(-50%);
     bottom: 20px;
     z-index: 1;
-}
+  }
+  
+  .column-container {
+    margin-top: -150px;
+    display: flex;
+    width: 80%;
+    /* margin: 0 auto; Center the columns horizontally */
+    justify-content: space-between; /* Distribute space between columns */
+    /* outline: blue solid 3px; */
+  }
+
+  .column {
+    flex: 1 1 0; /* Each column takes one-third of the page's width */
+    max-width: 40%;
+    margin: 0 ; /* Adjust margin as needed */
+    /* text-align: right; Center align content within columns */
+    /* outline: red solid 3px; */
+  }
+
+  .column h3 {
+    font-size: 2em;
+    color: #333; /* Adjust text color */
+    text-align: justify;
+  }
+
+  .column p {
+    font-size: 1.5em;
+    color: #666; /* Adjust text color */
+    text-align: left;
+    margin: 15px;
+  }
+
+  #arrow {
+    display: flex;
+    flex-direction: column; /* Ensure content stacks vertically */
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+    font-size: 2em; /* Adjust font size as needed */
+    padding: 1em;
+    margin: 0 auto 2em auto;
+    height: 100%; /* Set height to 100% */
+  }
 </style>
