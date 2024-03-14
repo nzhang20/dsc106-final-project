@@ -162,11 +162,11 @@
     // Calculate the index based on scroll position and section height
     let pos = Math.round(((scrollPosition + windowHeight / 2) / sectionHeight) * 100) / 100; // get 2 decimal places
     let new_index = Math.floor(pos);
-    // console.log(pos);
+    console.log(pos);
 
     if (new_index !== index) {
       index = new_index;
-    } else if (pos === 3.00){
+    } else if (pos === 3.50){
       // only show bar chart race once it gets to index 2
       replay();
     }
@@ -554,7 +554,7 @@ How has this affected education institutions since then?
     height: 90vh;
     /* background-color: rgba(0, 0, 0, 0.2); 20% opaque */
     /* color: white; */
-    /* outline: magenta solid 3px; */
+    outline: magenta solid 3px;
     text-align: center;
     /* max-width: 1000px; adjust at will */
     color: black;
