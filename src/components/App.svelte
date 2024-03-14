@@ -481,7 +481,7 @@ How has this affected education institutions since then?
       <section>
         <main id="stackedbar-chart-container"></main>
         <p>
-          This data illustrate a concerning trend where minorities, specifically black students, tend to have lower participation rates in AP exams, which are crucial for advancing in higher education. This discrepancy potentially places them at a significant disadvantage in accessing advanced educational opportunities.
+          This data illustrates a concerning trend where minorities, specifically black students, tend to have lower participation rates in AP exams, which are crucial for advancing in higher education. This discrepancy potentially places them at a significant disadvantage in accessing advanced educational opportunities.
         </p>
       </section>
       <!-- temp section for video -->
