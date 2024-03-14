@@ -10,7 +10,7 @@
     if (sectionHeight < 450){
       height = sectionHeight - 50;
     }
-    height -= 10
+    height -= 75
     const marginTop = 40;
     const marginRight = 50;
     const marginBottom = 10;
