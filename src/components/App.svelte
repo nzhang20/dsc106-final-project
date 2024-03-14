@@ -436,6 +436,7 @@ How has this affected education institutions since then?
         <p id="multiline-graph-description">Whites have always been the predominant race enrolled in educational institutions, but more so in earlier years. This gap has been closing with more minorities enrolling every year. </p>
       </section>
       <section>
+        <h2>Enrollment:</h2>
         <p> In 2000: 58% Whites vs 41% Minorities</p>
         <p> ↓ </p>
         <p> In 2021: 47% White vs 52% Minorities</p>
@@ -443,15 +444,24 @@ How has this affected education institutions since then?
       <section>
         <main id="slope-chart-container">
         </main>
+        <p>
+          This reveals a significant decrease in harassment and bullying over the years. However, among racial demographics, black students stand out with notably high rates of both harassment and disciplinary actions. These findings suggest a potential bias within school systems, indicating a disproportionate tendency to discipline black students and potentially implying an increased likelihood of being targeted for harassment compared to other racial groups.
+        </p>
       </section>
       <section>
         <main id="stackedbar-chart-container"></main>
+        <p>
+          This data illustrate a concerning trend where minorities, specifically black students, tend to have lower participation rates in AP exams, which are crucial for advancing in higher education. This discrepancy potentially places them at a significant disadvantage in accessing advanced educational opportunities.
+        </p>
       </section>
       <!-- temp section for video -->
       <section>
         <h1>
           Takeaways 
         </h1>
+        <p>
+          These visualizations reveal progress in diversity and decreased harassment in educational institutions. However, black students are still more likely to be harassed and have lower AP exam enrollment rates. Acknowledging that societal change takes time, we must continue striving for equality for racial justice.
+        </p>
       </section>
       
       
