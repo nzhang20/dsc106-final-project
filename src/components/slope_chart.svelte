@@ -158,6 +158,14 @@
         .text("Click line to expand") 
         .attr("fill", "gray")
         .style("font-size", "10px"); 
+    
+    // add title
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", 0 + 9)
+        .attr("text-anchor", "middle")
+        .style("font-size", "1.5em")
+        .text("Number of Students Harrassed and Disciplined From 2011-2017");
 
     return svg.node();
   }
