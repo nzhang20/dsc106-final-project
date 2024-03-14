@@ -438,7 +438,6 @@ How has this affected education institutions since then?
         </p>
       </section>
       <section>
-<<<<<<< HEAD
         <div class="column-container">
           <div class="column">
             <!-- Content for the first column -->
@@ -471,13 +470,6 @@ How has this affected education institutions since then?
             </p>
           </div>
         </div>
-        <!-- <p>  58% Whites vs 41% Minorities</p>
-=======
-        <h2>Enrollment:</h2>
-        <p> In 2000: 58% Whites vs 41% Minorities</p>
->>>>>>> b07b8ef7705864ca784fcb5b384337154f1c4037
-        <p> ↓ </p>
-        <p> In 2021: 47% White vs 52% Minorities</p> -->
       </section>
       <section>
         <main id="slope-chart-container">
