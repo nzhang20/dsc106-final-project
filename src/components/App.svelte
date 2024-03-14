@@ -30,7 +30,7 @@
   let n = 7; // number of categories
   let k = 10;
   let barSize = 48;
-  let marginTop = 60;
+  let marginTop = 80;
   let marginRight = 6;
   let marginBottom = 6;
   let marginLeft = 0;
@@ -50,7 +50,7 @@
     const res = await fetch('final_enrollment_data.csv'); 
     const csv = await res.text();
     tempData = d3.csvParse(csv, d3.autoType);
-    console.log(tempData);
+    // console.log(tempData);
 
     // Data for slope_chart
     const res2 = await fetch('final_harass_bully.csv'); 
@@ -162,7 +162,7 @@
     // Calculate the index based on scroll position and section height
     let pos = Math.round(((scrollPosition + windowHeight / 2) / sectionHeight) * 100) / 100; // get 2 decimal places
     let new_index = Math.floor(pos);
-    console.log(pos);
+    // console.log(pos);
 
     if (new_index !== index) {
       index = new_index;
@@ -178,14 +178,23 @@
           .attr("width", width)
           .attr("height", height - 65)
           .attr("style", "max-width: 100%; height: auto;");
-        
+       
+      // add title
       svg.append("text")
         .attr("x", width / 2)
         .attr("y", marginTop / 2)
         .attr("text-anchor", "middle")
         .style("font-size", "1.5em")
         .text("Student Enrollment from 2000-2021");
-
+      
+      // add subtitle
+      svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", marginTop / 2 + 17)
+        .attr("text-anchor", "middle")
+        .style("font-size", "1em")
+        .text("K-12th Grades + Undergrad");
+      
 
       const updateBars = bars(svg);
       const updateAxis = axis(svg);
