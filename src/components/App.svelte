@@ -26,7 +26,7 @@
   let next = null;
   let color = null;
 
-  let duration = 150;
+  let duration = 125;
   let n = 7; // number of categories
   let k = 10;
   let barSize = 48;
@@ -353,6 +353,7 @@
         .attr("x", width - 6)
         .attr("y", marginTop + barSize * (n - 0.45))
         .attr("dy", "0.32em")
+        .style("font-size", "1.3em") // Adjust font size here
         .text(formatDate(keyframes[0][0]));
 
     return ([date], transition) => {
