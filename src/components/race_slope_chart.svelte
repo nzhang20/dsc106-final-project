@@ -6,15 +6,15 @@
   export function raceSlopeChart(originalData, harassData, disciplineData, dataType, sectionHeight) {
     let data = [];
     let originalChart = slopeChart(originalData, harassData, disciplineData);
-    let chartTitle = ''
+    let chartTitle = '';
 
     if (dataType === 'harass') {
         data = harassData;
-        chartTitle = 'Number of Students Harassed by Race'
+        chartTitle = 'Number of Students Harassed by Race';
     } else {
         data = disciplineData;
-        chartTitle = 'Number of Students Disciplined by Race'
-    };
+        chartTitle = 'Number of Students Disciplined by Race';
+    }
 
     // Chart dimensions
     const width = 1000;
@@ -69,7 +69,7 @@
       .join("path")
         .attr("d", ([, values]) => line(values))
         .attr("class", "line") // Add class for easier selection
-        .attr("stroke", "currentColor") // Set the initial stroke color
+        .attr("stroke", d => getColor(d[0])) // Set the stroke color based on race
         .attr("stroke-width", 2) // Adjust stroke width as needed
         .style("pointer-events", "all") // Allow lines to receive mouse events
         .on("mouseenter", handleMouseEnter)
@@ -82,11 +82,20 @@
 
     function handleMouseLeave() {
         d3.select(this)
-            .attr("stroke", function() {
-                return d3.select(this).classed("hovered") ? "purple" : "currentColor";
-            }); // Revert color on mouse leave if not hovered
+            .attr("stroke", function(d) {
+                return getColor(d[0]); // Retain the original color on mouse leave
+            });
     }
 
+    // Function to get color based on race
+    function getColor(race) {
+        // Define a color scale based on race
+        const colorScale = d3.scaleOrdinal()
+            .domain([...new Set(data.map(d => d.race))])
+            .range(d3.schemeCategory10);
+
+        return colorScale(race);
+    }
 
     // Create a group of labels for each year
     svg.append("g")
@@ -115,24 +124,11 @@
             .attr("fill", "currentColor")
             .attr("stroke", "white")
             .attr("stroke-width", 5)
-            .attr("paint-order", "stroke");
+            .attr("paint-order", "stroke")
+            .attr("dx", 5); // Adjust the horizontal position of the text
 
-    // begining text
-    // svg.append("g")
-    //   .selectAll("g")
-    //   .data(d3.group(data, d => d.race))
-    //   .join("g")
-    //   .append("text")
-    //     .attr("x", d => x(d[0][d[1].length - 1].year)) 
-    //     .attr("y", d => y(d[1][0].count)) 
-    //     .text(d => d[0]) // Use type as text 
-    //     .attr("dy", "0.35em")
-    //     .attr("dx", 150)
-    //     .attr("text-anchor", "end") 
-    //     .attr("fill", "currentColor")
-    //     .style("font-size", "7px"); 
+    // Add race labels on the sides
     let startYPositions = {};
-
     svg.append("g")
         .selectAll("g")
         .data(d3.group(data, d => d.race))
@@ -141,46 +137,28 @@
             .attr("x", d => x(d[0][d[1].length - 1].year)) 
             .attr("y", d => {
                 const yPosition = Math.round(y(d[1][0].count) / 10) * 10;
-                // console.log(d[0], yPosition);
                 if (startYPositions[yPosition] !== undefined) {
                     const lastY = startYPositions[yPosition];
                     const lastHeight = parseFloat(svg.select(`text[y="${lastY}"]`).node().getBBox().height);
-                    let newY = lastY + lastHeight + 10; // Adjust this value to control the vertical spacing between text elements
+                    let newY = lastY + lastHeight + 10;
                     while (startYPositions[newY] !== undefined) {
                         newY = newY + 10
                     }
                     startYPositions[newY] = newY;
-                    // console.log('moved')
-                    // console.log(d[0], newY);
                     return newY - 3;
                 } else {
                     startYPositions[yPosition] = yPosition;
                     return yPosition;
                 }
             })
-            .text(d => d[0]) // Use type as text 
+            .text(d => d[0])
             .attr("dx", 150)
             .attr("text-anchor", "end") 
             .attr("fill", "currentColor")
             .style("font-size", "7px");
 
-    
-    // end text
-    // svg.append("g")
-    //   .selectAll("g")
-    //   .data(d3.group(data, d => d.race))
-    //   .join("g")
-    //   .append("text")
-    //     .attr("x", d => x(d[1][d[1].length - 1].year)) 
-    //     .attr("y", d => y(d[1][d[1].length - 1].count))
-    //     .text(d => d[0]) // Use type as text 
-    //     .attr("dy", "0.4em")
-    //     .attr("dx", 15)
-    //     .attr("text-anchor", "start") 
-    //     .attr("fill", "currentColor")
-    //     .style("font-size", "7px");
+    // Add race labels on the sides
     let lastYPositions = {};
-
     svg.append("g")
         .selectAll("g")
         .data(d3.group(data, d => d.race))
@@ -189,31 +167,27 @@
             .attr("x", d => x(d[1][d[1].length - 1].year)) 
             .attr("y", d => {
                 const yPosition = Math.round(y(d[1][d[1].length - 1].count) / 10) * 10;
-                // console.log(d[0], yPosition);
                 if (lastYPositions[yPosition] !== undefined) {
                     const lastY = lastYPositions[yPosition];
                     const lastHeight = parseFloat(svg.select(`text[y="${lastY}"]`).node().getBBox().height);
-                    let newY = lastY + lastHeight + 10; // Adjust this value to control the vertical spacing between text elements
+                    let newY = lastY + lastHeight + 10;
                     while (lastYPositions[newY] !== undefined) {
                         newY = newY + 10
                     }
                     lastYPositions[newY] = newY;
-                    // console.log('moved');
-                    // console.log(d[0], newY);
                     return newY - 3;
                 } else {
                     lastYPositions[yPosition] = yPosition;
                     return yPosition;
                 }
             })
-            .text(d => d[0]) // Use type as text 
+            .text(d => d[0])
             .attr("dx", 15)
             .attr("text-anchor", "start") 
             .attr("fill", "currentColor")
             .style("font-size", "7px");
 
-
-    // add title
+    // Add title
     svg.append("text")
        .attr("x", (width + marginLeft - marginRight) / 2)
        .attr("y", marginTop / 2)
@@ -223,13 +197,11 @@
        .style("font-size", "10px")
        .attr("dy", "-1.25em");
 
-
-    // return back to original graph
+    // Return back to original graph
     svg.on("click", () => {
         const container = document.getElementById('slope-chart-container');
         if (container) {
             container.innerHTML = ''; // Clear existing content
-            
             container.append(originalChart);
         }
     });
@@ -242,7 +214,6 @@
         .text("Click anywhere to return") 
         .attr("fill", "gray")
         .style("font-size", "10px"); 
-
 
     return svg.node();
   }
@@ -269,5 +240,4 @@
     }
     return positions;
   }
-
 </script>

@@ -49,6 +49,10 @@
         .call(g => g.append("text").text((d) => d))
         .call(g => g.append("line").attr("y1", 3).attr("y2", 9).attr("stroke", "currentColor"));
 
+    // Inside the slopeChart function
+    const harassmentColor = "#ff4d4d"; // Custom color for harassment (e.g., shades of red)
+    const disciplineColor = "#4d964d"; // Custom color for discipline (e.g., shades of green)
+
     // Create a line for each name
     const lines = svg.append("g")
       .attr("fill", "none")
@@ -57,12 +61,14 @@
       .join("path")
         .attr("d", ([, values]) => line(values))
         .attr("class", "line") // Add class for easier selection
-        .attr("stroke", "currentColor") // Set the initial stroke color
+        .attr("stroke", ([type]) => type === "# Harassed" ? harassmentColor : disciplineColor) // Set stroke color based on type
         .attr("stroke-width", 2) // Adjust stroke width as needed
         .style("pointer-events", "all") // Allow lines to receive mouse events
         .on("mouseenter", handleMouseEnter)
         .on("mouseleave", handleMouseLeave)
         .on("click", handleMouseClick);
+
+
 
     function handleMouseEnter() {
         d3.select(this)
@@ -87,9 +93,7 @@
 
     function handleMouseLeave() {
         d3.select(this)
-            .attr("stroke", function() {
-                return d3.select(this).classed("hovered") ? "purple" : "currentColor";
-            }); // Revert color on mouse leave if not hovered
+            .attr("stroke", ([type]) => type === "# Harassed" ? harassmentColor : disciplineColor); // Revert to original color on mouse leave
     }
 
 

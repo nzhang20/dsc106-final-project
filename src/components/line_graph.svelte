@@ -2,8 +2,8 @@
     import * as d3 from 'd3';
 
     export function multiLineGraph(data, lg_height) {
-        const width = 600;
-        const height = lg_height;
+        const width = 800;
+        const height = 600;
         const margin = ({ top: 30, right: 0, bottom: 30, left: 90 });
         const colors = d3.scaleOrdinal(d3.schemeCategory10);
 
@@ -39,92 +39,94 @@
             .attr("class", "y-axis")
             .attr("transform", `translate(${margin.left}, 0)`)
             .call(yAxis);
+
+        // add title
+        svg.append("text")
+            .attr("x", width / 2 + 20)
+            .attr("y", margin.top / 2 - 2)
+            .attr("text-anchor", "middle")
+            .style("font-size", "1.2em")
+            .text("Student Enrollment Trends by Race");
         
-        // Add y-axis label
+        // Adjust font size of y-axis label
         svg.append("text")
             .attr("transform", "rotate(-90)")
             .attr("y", margin.left / 2 - 40) // Adjust position of the label
             .attr("x", 0 - (height / 2))
             .attr("dy", "1em")
             .style("text-anchor", "middle")
-            .style("font-size", "0.75em") // Adjust font size here
+            .style("font-size", "1em") // Adjust font size here
             .text("Number of Enrolled Students");
 
-        // Add x-axis label
+        // Adjust font size of x-axis label
         svg.append("text")
             .attr("transform", `translate(${width / 2 + 35}, ${height + margin.top - 20})`) // Adjust position of the label
-            .style("font-size", "0.75em") // Adjust font size here
+            .style("font-size", "1em") // Adjust font size here
             .style("text-anchor", "middle")
             .text("Year");
+
 
         const races = [...new Set(data.map(d => d.race))];
         races.forEach((race, index) => {
             const filteredData = data.filter(d => d.race === race);
-            chartGroup.append('path')
-                .datum(filteredData)
-                .attr('class', 'line')
-                .attr('d', line)
-                .style('stroke', colors(race))
-                .style('fill', 'none');
+                chartGroup.append('path')
+                    .datum(filteredData)
+                    .attr('class', 'line')
+                    .attr('d', line)
+                    .style('stroke', colors(race))
+                    .style('stroke-width', 3) // make line thicker
+                    .style('fill', 'none');
+
+                const area = d3.area()
+                    .x(d => xScale(new Date(d.year)))
+                    .y0(height - margin.bottom)
+                    .y1(d => yScale(d.enrollment));
+
+                chartGroup.append('path')
+                    .datum(filteredData)
+                    .attr('class', 'area')
+                    .attr('d', area)
+                    .style('fill', colors(race))
+                    .style('opacity', 0.2); // Adjust opacity as needed
+
+
         });
+
+        // Calculate the height of the legend group based on the number of legend items and font size
+        const legendItemHeight = 20; // Adjust as needed
+        const legendGroupHeight = races.length * legendItemHeight;
 
         // Create legend group
         const legendGroup = svg.append('g')
             .attr('class', 'legend-group')
-            .attr('transform', `translate(${width - 100}, ${margin.top})`);
+            .attr('transform', `translate(${width - 200}, ${margin.top})`);
 
         // Add legend items
         races.forEach((race, index) => {
-            // Split "Native Hawaiian or other Pacific Islander" into two rows
-            if (race === "Native Hawaiian or other Pacific Islander") {
-                const raceText = "Native Hawaiian or other Pacific";
-                const islanderText = "Islander";
-                
-                // Add text for the first row
-                legendGroup.append('text')
-                    .attr('x', -2)
-                    .attr('y', 10 * index)
-                    .style('fill', colors(race))
-                    .text(raceText)
-                    .style('font-size', '11px');
-                
-                // Add text for the second row
-                legendGroup.append('text')
-                    .attr('x', 8)
-                    .attr('y', 10 * index + 10) // Adjust y position for the second row
-                    .style('fill', colors(race))
-                    .text(islanderText)
-                    .style('font-size', '11px');
-            } else if (race === "Two or more races") {
-                legendGroup.append('text')
-                    .attr('x', -2)
-                    .attr('y', 10 * index + 10)
-                    .style('fill', colors(race))
-                    .text(race)
-                    .style('font-size', '11px');
-            }else {
-                // For other races, add a single text element
-                legendGroup.append('text')
-                    .attr('x', -2)
-                    .attr('y', 10 * index)
-                    .style('fill', colors(race))
-                    .text(race)
-                    .style('font-size', '11px');
-            }
+            // Add text for the legend items
+            legendGroup.append('text')
+                .attr('x', 0)
+                .attr('y', index * legendItemHeight)
+                .style('fill', colors(race))
+                .text(race)
+                .style('font-size', '14px'); // Adjust font size as needed
         });
 
+        // Calculate the width and height of the legend box
+        const legendBoxWidth = 180; // Adjust as needed
+        const legendBoxHeight = legendGroupHeight + 10; // Add padding
 
-        // Add a box around the legend
-        const legendBox = legendGroup.node().getBBox();
+        // Add a rectangle around the legend items
         legendGroup.insert('rect', ':first-child')
-            .attr('x', legendBox.x - 5)
-            .attr('y', legendBox.y - 10)
-            .attr('width', 160)
-            .attr('height', 85)
+            .attr('x', -5)
+            .attr('y', -20)
+            .attr('width', legendBoxWidth+65)
+            .attr('height', legendBoxHeight)
             .attr('fill', 'white')
             .style('opacity', 0.75)
             .attr('stroke', 'black')
             .attr('stroke-width', 1);
+
 
         return svg.node();
     }

@@ -57,6 +57,24 @@
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+
+        // add title
+        svg.append("text")
+            .attr("x", (width / 2))
+            .attr("y", 0 - (margin.top / 2))
+            .attr("text-anchor", "middle")
+            .style("font-size", "25px")
+            .text("Student Enrollment in AP Exams by Race in 2017");
+
+        // hover text
+        svg.append("text")
+            .attr("x", width / 2)
+            .attr("y", (height + margin.bottom / 1.5) + 10)
+            .attr("text-anchor", "middle")
+            .text("Hover for more details") 
+            .attr("fill", "gray")
+            .style("font-size", "16px"); 
+
         // Add y-axis title
         svg.append("text")
             .attr("transform", "rotate(-90)")
