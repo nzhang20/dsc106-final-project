@@ -22,7 +22,7 @@
     if (sectionHeight < height) {
       height = sectionHeight - 50;
     }
-    height -= 75
+    height -= 85;
     const marginTop = 40;
     const marginRight = 50;
     const marginBottom = 10;
