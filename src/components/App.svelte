@@ -460,14 +460,14 @@ How has this affected education institutions since then?
             <!-- Content for the third column -->
             <h3>In 2017:</h3>
             <p>
-              47% White<br>
-              53% Minorities<br>
-              &nbsp;&nbsp;&nbsp;27% Hispanic<br>
-              &nbsp;&nbsp;&nbsp;15% Black<br>
-              &nbsp;&nbsp;&nbsp;5% Asian<br>
-              &nbsp;&nbsp;&nbsp;4% Two or more races<br>
-              &nbsp;&nbsp;&nbsp;1% American Indian or Alaska Native<br>
-              &nbsp;&nbsp;&nbsp;0.4% Native Hawaiian or other Pacific Islander<br>
+              47% White <span style="color: #B30000;">(-11%)</span><br>
+              53% Minorities <span style="color: #007F00;">(+11%)</span><br>
+              &nbsp;&nbsp;&nbsp;27% Hispanic <span style="color: #007F00;">(+8%)</span><br>
+              &nbsp;&nbsp;&nbsp;15% Black <span style="color: #B30000;">(-3%)</span><br>
+              &nbsp;&nbsp;&nbsp;5% Asian <span style="color: #007F00;">(+1%)</span><br>
+              &nbsp;&nbsp;&nbsp;4% Two or more races <span style="color: #007F00;">(+4%)</span><br>
+              &nbsp;&nbsp;&nbsp;1% American Indian or Alaska Native <span style="color: #808080;">(0%)</span><br>
+              &nbsp;&nbsp;&nbsp;0.4% Native Hawaiian or other Pacific Islander <span style="color: #007F00;">(+0.4%)</span><br>
             </p>
           </div>
         </div>
@@ -634,20 +634,36 @@ How has this affected education institutions since then?
   
   .column-container {
     margin-top: -150px;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
-    width: 80%;
+    width: 90%;
     /* margin: 0 auto; Center the columns horizontally */
-    justify-content: space-between; /* Distribute space between columns */
+    justify-content: center;
+    gap: 0;
     /* outline: blue solid 3px; */
   }
 
   .column {
-    flex: 1 1 0; /* Each column takes one-third of the page's width */
+    /* flex: 2 1 0; Each column takes one-third of the page's width */
     max-width: 40%;
-    margin: 0 ; /* Adjust margin as needed */
+    margin: 0; /* Adjust margin as needed */
+    padding: 0;
     /* text-align: right; Center align content within columns */
     /* outline: red solid 3px; */
   }
+  .column:nth-child(1) {
+      max-width: 30%; /* First column takes 40% of the available space */
+  }
+
+  .column:nth-child(2) {
+      max-width: 20%; /* Second column takes 20% of the available space */
+  }
+
+  .column:nth-child(3) {
+      max-width: 50%; /* Third column takes 60% of the available space */
+  }
+
 
   .column h3 {
     font-size: 2em;
@@ -656,8 +672,8 @@ How has this affected education institutions since then?
   }
 
   .column p {
-    font-size: 1.5em;
-    color: #666; /* Adjust text color */
+    font-size: 1.25em;
+    color: #444; /* Adjust text color */
     text-align: left;
     margin: 15px;
   }
