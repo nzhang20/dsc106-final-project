@@ -480,13 +480,13 @@ How has this affected education institutions since then?
         <main id="slope-chart-container">
         </main>
         <p>
-          This reveals a significant decrease in harassment and bullying over the years. However, among racial demographics, black students stand out with notably high rates of both harassment and disciplinary actions. These findings suggest a potential bias within school systems, indicating a disproportionate tendency to discipline black students and potentially implying an increased likelihood of being targeted for harassment compared to other racial groups.
+          As shown above, there has been a significant decrease in harassment and bullying over the years. However, among racial demographics, black students stand out with notably high rates of both harassment and disciplinary actions. These findings suggest a potential bias within school systems, indicating a disproportionate tendency to discipline black students and potentially implying an increased likelihood of being targeted for harassment compared to other racial groups.
         </p>
       </section>
       <section>
         <main id="stackedbar-chart-container"></main>
         <p>
-          This data illustrates a concerning trend where minorities, specifically black students, tend to have lower participation rates in AP exams, which are crucial for advancing in higher education. This discrepancy potentially places them at a significant disadvantage in accessing advanced educational opportunities.
+          Once again, Whites rise to the top with one of the highest AP participation rates, and Asians being the only minority group with a higher percentage. The data illustrates a concerning trend where minorities, specifically black students, tend to have lower participation rates in AP exams, which are crucial for advancing in higher education. This discrepancy potentially places them at a significant disadvantage in accessing advanced educational opportunities. 
         </p>
       </section>
       <!-- temp section for video -->
