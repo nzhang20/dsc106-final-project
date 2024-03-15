@@ -4,7 +4,7 @@
     export function multiLineGraph(data, lg_height) {
         const width = 600;
         const height = lg_height;
-        const margin = ({ top: 30, right: 0, bottom: 30, left: 60 });
+        const margin = ({ top: 30, right: 0, bottom: 30, left: 90 });
         const colors = d3.scaleOrdinal(d3.schemeCategory10);
 
         const svg = d3.create("svg")
@@ -39,6 +39,23 @@
             .attr("class", "y-axis")
             .attr("transform", `translate(${margin.left}, 0)`)
             .call(yAxis);
+        
+        // Add y-axis label
+        svg.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", margin.left / 2 - 40) // Adjust position of the label
+            .attr("x", 0 - (height / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .style("font-size", "0.75em") // Adjust font size here
+            .text("Number of Enrolled Students");
+
+        // Add x-axis label
+        svg.append("text")
+            .attr("transform", `translate(${width / 2 + 35}, ${height + margin.top - 20})`) // Adjust position of the label
+            .style("font-size", "0.75em") // Adjust font size here
+            .style("text-anchor", "middle")
+            .text("Year");
 
         const races = [...new Set(data.map(d => d.race))];
         races.forEach((race, index) => {
