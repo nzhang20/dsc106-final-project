@@ -439,6 +439,7 @@ How has this affected education institutions since then?
         </p>
       </section>
       <section>
+        <p id="enrollment_title">A Breakdown of Enrollment from 2000 to 2017: </p>
         <div class="column-container">
           <div class="column">
             <!-- Content for the first column -->
@@ -471,6 +472,9 @@ How has this affected education institutions since then?
             </p>
           </div>
         </div>
+        <p>
+          Through continuous efforts, enrollment among minority groups has grown, introducing increasing diversity within educational institutions.
+        </p>
       </section>
       <section>
         <main id="slope-chart-container">
@@ -527,6 +531,16 @@ How has this affected education institutions since then?
       color: #000; 
       font-family: "Times New Roman"; 
       text-align: justify; /* Left align the title */
+  }
+
+  #enrollment_title {
+      font-size: 1.75em;
+      margin-top: -100px;
+      /* margin-left: 300px;
+      margin-right: 300px; */
+      color: #000; 
+      font-family: "Times New Roman"; 
+      text-align: center;
   }
 
   #hook {
@@ -633,11 +647,11 @@ How has this affected education institutions since then?
   }
   
   .column-container {
-    margin-top: -150px;
+    margin-top: 0px;
     margin-left: auto;
     margin-right: auto;
     display: flex;
-    width: 90%;
+    width: 80%;
     /* margin: 0 auto; Center the columns horizontally */
     justify-content: center;
     gap: 0;
@@ -645,30 +659,23 @@ How has this affected education institutions since then?
   }
 
   .column {
-    /* flex: 2 1 0; Each column takes one-third of the page's width */
+    flex: 2 1 0; /* Each column takes one-third of the page's width */
     max-width: 40%;
     margin: 0; /* Adjust margin as needed */
     padding: 0;
     /* text-align: right; Center align content within columns */
     /* outline: red solid 3px; */
   }
-  .column:nth-child(1) {
-      max-width: 30%; /* First column takes 40% of the available space */
-  }
 
   .column:nth-child(2) {
-      max-width: 20%; /* Second column takes 20% of the available space */
+    flex: 1 1 0; /* Middle column takes half as much space */
+    max-width: 20%; /* Adjust the width of the middle column */
   }
-
-  .column:nth-child(3) {
-      max-width: 50%; /* Third column takes 60% of the available space */
-  }
-
 
   .column h3 {
-    font-size: 2em;
+    font-size: 1.5em;
     color: #333; /* Adjust text color */
-    text-align: justify;
+    text-align: center;
   }
 
   .column p {
