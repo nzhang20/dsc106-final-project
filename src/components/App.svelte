@@ -495,7 +495,7 @@ How has this affected education institutions since then?
           Takeaways 
         </h1>
         <p>
-          These animated and interactive visualizations reveal progress in diversity and reduced cases of harassment in educational institutions. They encourage users to explore the data we have gathered, highlighting concerning trends between White students and minorities. While there has been a clear increase in diversity among enrolled students, black students still face higher chances of harassment and lower AP exam enrollment rates. We acknowledge that societal change takes time, and we aim to emphasize the importance of continuing to strive for racial justice, especially within our educational institutions.
+          These animated and interactive visualizations reveal progress in diversity and reduced cases of harassment in educational institutions. They encourage users to explore the data we have gathered, highlighting concerning trends between White students and minorities. While there has been a clear increase in diversity among enrolled students (an 11% increase from 2000 to 2011 in minorty enrollment!), black students still face higher chances of harassment and lower AP exam enrollment rates. We acknowledge that societal change takes time, and we aim to emphasize the importance of continuing to strive for racial justice, especially within our educational institutions.
         </p>
       </section>
       
