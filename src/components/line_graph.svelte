@@ -3,7 +3,10 @@
 
     export function multiLineGraph(data, lg_height) {
         const width = 800;
-        const height = 600;
+        let height = 600;
+        if (lg_height < height) {
+            height = lg_height;
+        }
         const margin = ({ top: 30, right: 0, bottom: 30, left: 90 });
         const colors = d3.scaleOrdinal(d3.schemeCategory10);
 

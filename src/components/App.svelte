@@ -106,7 +106,7 @@
     chart();
     // console.log(tempData);
     
-    let lg_height = (document.body.clientHeight / count) / 2;
+    let lg_height = (document.body.clientHeight / count) / 3 * 2;
     console.log(lg_height);
     const line_graph = multiLineGraph(tempData, lg_height); // Call your multiLineGraph function
     // console.log(line_graph);
