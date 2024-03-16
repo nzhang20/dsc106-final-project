@@ -26,7 +26,7 @@
   let next = null;
   let color = null;
 
-  let duration = 125;
+  let duration = 100;
   let n = 7; // number of categories
   let k = 10;
   let barSize = 48;
@@ -486,7 +486,7 @@ How has this affected education institutions since then?
       <section>
         <main id="stackedbar-chart-container"></main>
         <p>
-          Once again, Whites rise to the top with one of the highest AP participation rates, and Asians being the only minority group with a higher percentage. The data illustrates a concerning trend where minorities, specifically black students, tend to have lower participation rates in AP exams, which are crucial for advancing in higher education. This discrepancy potentially places them at a significant disadvantage in accessing advanced educational opportunities. 
+        Once again, we see a significant disparity among different races, highlighting the concept discussed in the Critical Race Theory. Whites rise to the top, with one of the highest AP participation rates, while Asians are the only minority group with a higher percentage. The data illustrates a concerning trend: other minorities, specifically black students, tend to have much lower AP exam participation rates. These exams are crucial for advancing in higher education, and this discrepancy potentially places them at a significant disadvantage in accessing advanced educational opportunities.
         </p>
       </section>
       <!-- temp section for video -->
@@ -495,7 +495,7 @@ How has this affected education institutions since then?
           Takeaways 
         </h1>
         <p>
-          These visualizations reveal progress in diversity and decreased harassment in educational institutions. However, black students are still more likely to be harassed and have lower AP exam enrollment rates. Acknowledging that societal change takes time, we must continue striving for equality for racial justice.
+          These animated and interactive visualizations reveal progress in diversity and reduced cases of harassment in educational institutions. They encourage users to explore the data we have gathered, highlighting concerning trends between White students and minorities. While there has been a clear increase in diversity among enrolled students, black students still face higher chances of harassment and lower AP exam enrollment rates. We acknowledge that societal change takes time, and we aim to emphasize the importance of continuing to strive for racial justice, especially within our educational institutions.
         </p>
       </section>
       

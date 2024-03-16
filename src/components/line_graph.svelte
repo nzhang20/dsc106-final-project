@@ -7,7 +7,7 @@
         if (lg_height < height) {
             height = lg_height;
         }
-        const margin = ({ top: 30, right: 0, bottom: 30, left: 90 });
+        const margin = ({ top: 30, right: 0, bottom: 30, left: 60 });
         const colors = d3.scaleOrdinal(d3.schemeCategory10);
 
         const svg = d3.create("svg")
@@ -31,7 +31,10 @@
             .y(d => yScale(d.enrollment));
 
         const xAxis = d3.axisBottom(xScale);
-        const yAxis = d3.axisLeft(yScale);
+        // const yAxis = d3.axisLeft(yScale);
+        const yAxis = d3.axisLeft(yScale)
+            .tickFormat(d3.format(".0s")); // Use SI-prefix format for tick labels
+
 
         chartGroup.append("g")
             .attr("class", "x-axis")
@@ -54,12 +57,12 @@
         // Adjust font size of y-axis label
         svg.append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", margin.left / 2 - 40) // Adjust position of the label
+            .attr("y", margin.left / 2 - 25) // Adjust position of the label
             .attr("x", 0 - (height / 2))
             .attr("dy", "1em")
             .style("text-anchor", "middle")
             .style("font-size", "1em") // Adjust font size here
-            .text("Number of Enrolled Students");
+            .text("Number of Enrolled Students (millions)");
 
         // Adjust font size of x-axis label
         svg.append("text")

@@ -28,9 +28,9 @@
 
         const dataset = ap_data;
 
-        const margin = { top: 100, right: 20, bottom: 80, left: 60 };
+        const margin = { top: 150, right: 20, bottom: 80, left: 60 };
         const width = 800 - margin.left - margin.right; 
-        const height = apHeight - 20; // 700 - margin.top - margin.bottom;
+        const height = apHeight - 75; // 700 - margin.top - margin.bottom;
 
         const x = d3.scaleBand()
             .range([0, width])
